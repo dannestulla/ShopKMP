@@ -1,4 +1,4 @@
-CREATE TABLE favorites(
+CREATE TABLE checkoutCart(
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     price TEXT NOT NULL,
@@ -8,23 +8,23 @@ CREATE TABLE favorites(
     category TEXT NOT NULL
 );
 
-getFavorites:
+getCartItems:
 SELECT *
-FROM favorites
+FROM checkoutCart
 ORDER BY timestamp DESC;
 
-getFavoriteById:
+getCartItemById:
 SELECT *
-FROM favorites
+FROM checkoutCart
 WHERE title = ?;
 
-removeFavoriteById:
-DELETE FROM favorites
+removeFromCart:
+DELETE FROM checkoutCart
 WHERE id = ?;
 
-saveFavorite:
+addToCart:
 INSERT OR REPLACE
-INTO favorites(
+INTO checkoutCart(
     title,
     price,
     description,

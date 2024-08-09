@@ -16,3 +16,11 @@ actual fun Double.toPercentage(): String {
     }
     return formatter.stringFromNumber(NSNumber(this)) ?: "$this%"
 }
+
+actual fun String.percentageToDouble(): Double {
+    TODO("Not yet implemented")
+}
+
+actual fun String.currencyToDouble(): Double {
+    TODO("Not yet implemented")
+}

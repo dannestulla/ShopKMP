@@ -33,8 +33,4 @@ class SharedCategoriesViewModel(
             }
         }
     }
-
-    suspend fun getProducts(): List<Product> {
-        return repository.getProducts()
-    }
 }

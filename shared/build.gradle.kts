@@ -49,7 +49,6 @@ kotlin {
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.datetime)
-
         }
         iosMain.dependencies {
             implementation(libs.ktor.darwin)
@@ -77,7 +76,7 @@ android {
 
 sqldelight {
     databases {
-        create("FavoritesDatabase") {
+        create("ShopSampleDatabase") {
             packageName.set("br.gohan.shopsample.database")
         }
     }

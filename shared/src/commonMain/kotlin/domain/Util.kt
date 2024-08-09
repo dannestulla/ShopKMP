@@ -1,6 +1,10 @@
 package domain
 
 
-internal expect fun Double.toCurrency(): String
+expect fun Double.toCurrency(): String
 
-internal expect fun Double.toPercentage() : String
+expect fun String.currencyToDouble() : Double
+
+expect fun String.percentageToDouble() : Double
+
+expect fun Double.toPercentage() : String

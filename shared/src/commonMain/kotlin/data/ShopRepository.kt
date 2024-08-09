@@ -1,6 +1,6 @@
 package data
 
-import br.gohan.shopsample.database.FavoritesDatabase
+import br.gohan.shopsample.database.ShopSampleDatabase
 import data.model.Category
 import data.model.Categories
 import data.model.Product
@@ -11,11 +11,12 @@ import kotlinx.datetime.Clock
 
 class ShopRepository(
     private val httpClient: HttpClient,
-    database: FavoritesDatabase
+    database: ShopSampleDatabase
 
 ) {
     private val baseUrl = "https://api.escuelajs.co/api/v1"
-    private val dbQueries = database.favoritesQueries
+    private val favoritesTable = database.favoritesQueries
+    private val checkoutTable = database.checkoutQueries
 
 
     suspend fun getProducts(): List<Product> {
@@ -23,13 +24,13 @@ class ShopRepository(
     }
 
     suspend fun getCategories(): List<Categories> {
-        return httpClient.get("$baseUrl/categories").body()
+        return httpClient.get("$baseUrl/categories").body<List<Categories>>().subList(0, 5)
+        // Sublist to avoid weird categories from API
     }
 
     fun getFavorites() : List<Product> {
-        return dbQueries.getFavorites().executeAsList().subList(0, 5).map {
+        return favoritesTable.getFavorites().executeAsList().map {
             Product(
-                id = it.id.toInt(),
                 title = it.title,
                 price = it.price.toDouble(),
                 description = it.description,
@@ -39,15 +40,29 @@ class ShopRepository(
         }
     }
 
-    fun saveFavorite(favorite: Product) {
-        dbQueries.saveFavorite(
-            id = favorite.id.toLong(),
-            title = favorite.title,
-            price = favorite.price.toString(),
-            description = favorite.description,
-            image = favorite.images.first(),
+    fun saveFavorite(product: Product) {
+        favoritesTable.saveFavorite(
+            title = product.title,
+            price = product.price.toString(),
+            description = product.description,
+            image = product.images.first(),
             timestamp = Clock.System.now().toEpochMilliseconds(),
-            category = favorite.category.name
+            category = product.category.name
         )
+    }
+
+    fun removeFavorite(product: Product) {
+        val favorite = favoritesTable.getFavoriteById(product.title).executeAsList()
+        favorite.forEach {
+            favoritesTable.removeFavoriteById(it.id)
+        }
+    }
+
+    fun addItemToCart(product: Product) {
+
+    }
+
+    fun removeItemFromCart(product: Product) {
+
     }
 }

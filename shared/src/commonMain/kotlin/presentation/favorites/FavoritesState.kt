@@ -1,7 +1,6 @@
 package presentation.favorites
 
-import data.model.Product
-import presentation.ProductUI
+import presentation.model.ProductUI
 
 
 data class FavoritesState(val products: List<ProductUI>? = null)

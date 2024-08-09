@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 
 actual val database = module {
-    single<SqlDriver> { NativeSqliteDriver(FavoritesDatabase.Schema, "favorites.db") }
+    single<SqlDriver> { NativeSqliteDriver(FavoritesDatabase.Schema, "shopsample.db") }
 }
