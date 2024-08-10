@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.gohan.presenter.ui.Dimens
+import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import data.model.Categories
 import org.jetbrains.compose.ui.tooling.preview.Preview

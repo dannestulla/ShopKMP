@@ -19,7 +19,10 @@ datetime = "0.6.0"
 androidx-lifecycle = "2.8.0"
 navigation = "2.7.0-alpha07"
 compose-multiplatform = "1.6.11"
+serialization = "1.7.1"
 coil3 = "3.0.0-alpha06"
+voyager = "1.1.0-beta02"
+datastore = "1.1.1"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -30,15 +33,18 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 kotlin-native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
+navigation-voyager = { group = "cafe.adriel.voyager", name ="voyager-navigator", version.ref = "voyager" }
 navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+datastore = {group = "androidx.datastore", name = "datastore", version.ref = "datastore"}
+datastore-preferences  = {group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
 
 # COIL
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }

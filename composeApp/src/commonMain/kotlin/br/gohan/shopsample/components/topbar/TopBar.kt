@@ -25,7 +25,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.navigation.NavHostController
-import br.gohan.AppRoutes
+import br.gohan.shopsample.AppRoutes
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.favorites.SharedFavoritesViewModel
 
@@ -134,9 +134,3 @@ internal fun TopBarAction.handle(
     }
 }
 
-
-@Preview()
-@Composable
-private fun TopBarPreview() {
-
-}

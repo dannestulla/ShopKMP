@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import br.gohan.presenter.ui.Dimens
+import br.gohan.shopsample.ui.Dimens
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

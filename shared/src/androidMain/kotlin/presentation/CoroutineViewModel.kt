@@ -2,7 +2,6 @@ package presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 
 actual abstract class CoroutineViewModel : ViewModel() {

@@ -7,7 +7,7 @@ import data.model.Categories
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import br.gohan.shopsample.components.CategoryComponent
-import br.gohan.presenter.ui.Dimens
+import br.gohan.shopsample.ui.Dimens
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -57,5 +57,6 @@ private fun CategoriesScreenPreview() {
                 image = "",
             ),
         ),
-     "") {}
+        ""
+    ) {}
 }

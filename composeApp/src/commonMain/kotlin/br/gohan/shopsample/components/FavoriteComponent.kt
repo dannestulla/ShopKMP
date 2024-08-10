@@ -24,8 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.gohan.presenter.ui.AppColor
-import br.gohan.presenter.ui.Dimens
+import br.gohan.shopsample.ui.AppColor
+import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
 import org.jetbrains.compose.ui.tooling.preview.Preview

@@ -18,7 +18,6 @@ class ShopRepository(
     private val favoritesTable = database.favoritesQueries
     private val checkoutTable = database.checkoutQueries
 
-
     suspend fun getProducts(): List<Product> {
         return httpClient.get("$baseUrl/products").body()
     }

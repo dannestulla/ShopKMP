@@ -1,6 +1,6 @@
 package br.gohan.shopsample.components.topbar
 
-import br.gohan.AppRoutes
+import br.gohan.shopsample.AppRoutes
 import data.model.Product
 
 internal fun setTopTitle(route: String?) : String {

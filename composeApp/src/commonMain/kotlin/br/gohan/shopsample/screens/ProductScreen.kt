@@ -24,8 +24,8 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import br.gohan.presenter.ui.AppColor
-import br.gohan.presenter.ui.Dimens
+import br.gohan.shopsample.ui.AppColor
+import br.gohan.shopsample.ui.Dimens
 import br.gohan.shopsample.ui.ShopTheme
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.painterResource

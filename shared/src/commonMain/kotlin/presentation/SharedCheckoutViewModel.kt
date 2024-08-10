@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import presentation.CoroutineViewModel
 import presentation.model.ProductUI
 import presentation.favorites.FavoritesState
 

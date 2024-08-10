@@ -1,4 +1,4 @@
-package br.gohan.presenter
+package br.gohan.shopsample
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
@@ -18,14 +18,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import br.gohan.shopsample.AppRoutes
-import br.gohan.shopsample.ShopNavHost
-import br.gohan.shopsample.ShopNavHostState
-import br.gohan.shopsample.getRoute
 
 
 @Composable
-fun ShopApp() {
+fun ShopApp(dataStoreManager: DataStoreManager) {
     ShopTheme {
         val navController = rememberNavController()
         val backStackEntry = navController.currentBackStackEntryAsState()
@@ -80,11 +76,12 @@ fun ShopApp() {
                     .fillMaxSize()
             ) {
                 ShopNavHost(
-                    ShopNavHostState(
+                    AppState(
                         navController,
                         currentSearch.value,
                         topBarState,
                         favoritesViewModel,
+                        dataStoreManager
                     )
                 )
             }

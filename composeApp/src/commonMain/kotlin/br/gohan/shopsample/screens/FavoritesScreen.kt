@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
-import br.gohan.presenter.ui.Dimens
+import br.gohan.shopsample.ui.Dimens
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.model.ProductUI
 

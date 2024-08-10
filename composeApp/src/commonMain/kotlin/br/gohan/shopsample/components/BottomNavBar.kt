@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import br.gohan.AppRoutes
+import br.gohan.shopsample.AppRoutes
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

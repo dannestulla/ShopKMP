@@ -1,4 +1,4 @@
-package br.gohan.shopkmp
+package br.gohan.shopsample
 
 import platform.UIKit.UIDevice
 
