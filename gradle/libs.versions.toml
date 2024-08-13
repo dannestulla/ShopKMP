@@ -21,8 +21,8 @@ navigation = "2.7.0-alpha07"
 compose-multiplatform = "1.6.11"
 serialization = "1.7.1"
 coil3 = "3.0.0-alpha06"
-voyager = "1.1.0-beta02"
 datastore = "1.1.1"
+uiTextGoogleFonts = "1.6.8"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -40,7 +40,6 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "datetime" }
-navigation-voyager = { group = "cafe.adriel.voyager", name ="voyager-navigator", version.ref = "voyager" }
 navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 datastore = {group = "androidx.datastore", name = "datastore", version.ref = "datastore"}
@@ -58,7 +57,7 @@ sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", versi
 sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 
-# ANDROID X
+# ANDROID
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidx-espresso-core" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -82,6 +81,7 @@ koin-core = { group = "io.insert-koin", name="koin-core", version.ref = "koin"}
 koin-android = { group = "io.insert-koin", name="koin-android", version.ref = "koin"}
 koin-compose = { group = "io.insert-koin", name="koin-androidx-compose", version.ref = "koin"}
 koin-test = { group = "io.insert-koin", name="koin-test", version.ref = "koin"}
+androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 
 [bundles]
 ktor = [

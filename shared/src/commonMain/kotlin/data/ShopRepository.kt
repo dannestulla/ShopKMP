@@ -4,10 +4,12 @@ import br.gohan.shopsample.database.ShopSampleDatabase
 import data.model.Category
 import data.model.Categories
 import data.model.Product
+import database.Favorites
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.datetime.Clock
+import presentation.model.ProductUI
 
 class ShopRepository(
     private val httpClient: HttpClient,
@@ -39,6 +41,10 @@ class ShopRepository(
         }
     }
 
+    fun getFavoriteByTitle(title: String): Favorites? {
+        return favoritesTable.getFavoriteTitle(title).executeAsList().firstOrNull()
+    }
+
     fun saveFavorite(product: Product) {
         favoritesTable.saveFavorite(
             title = product.title,
@@ -51,17 +57,14 @@ class ShopRepository(
     }
 
     fun removeFavorite(product: Product) {
-        val favorite = favoritesTable.getFavoriteById(product.title).executeAsList()
+        val favorite = favoritesTable.getFavoriteTitle(product.title).executeAsList()
         favorite.forEach {
             favoritesTable.removeFavoriteById(it.id)
         }
     }
 
-    fun addItemToCart(product: Product) {
+    fun addToCart(product: ProductUI) {
 
-    }
-
-    fun removeItemFromCart(product: Product) {
 
     }
 }

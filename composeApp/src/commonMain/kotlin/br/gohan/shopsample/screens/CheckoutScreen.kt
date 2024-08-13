@@ -21,9 +21,3 @@ fun CheckoutScreen() {
         Text("Checkout Screen")
     }
 }
-
-@Preview()
-@Composable
-private fun CheckoutScreenPreview() {
-    CheckoutScreen()
-}

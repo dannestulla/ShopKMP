@@ -12,7 +12,8 @@ internal fun Product.toProductUI(discount: Double): ProductUI {
         discount.toPercentage(),
         this.description,
         this.images,
-        this.category.name
+        this.category.name,
+
     )
 }
 

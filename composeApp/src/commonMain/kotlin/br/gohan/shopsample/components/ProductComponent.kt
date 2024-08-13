@@ -11,14 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,19 +31,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.gohan.shopsample.ui.Dimens
+import br.gohan.shopsample.ui.ShopTheme
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.model.ProductUI
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: (ProductAction) -> Unit) {
     var favorited by remember {
         mutableStateOf(isFavorited)
     }
-    val snackbar = remember { SnackbarHostState() }
-    val coroutine = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -55,7 +53,6 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
             onClick = { onClick(ProductAction.Navigate(product)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
                 .padding(3.dp)
                 .width(200.dp)
         ) {
@@ -70,6 +67,7 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                 )
                 Text(
                     text = product.title,
+                    fontSize = Dimens.fontSmaller,
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .align(Alignment.Start),
@@ -77,7 +75,7 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                 )
                 Text(
                     text = product.category,
-                    fontSize = 10.sp,
+                    fontSize = Dimens.fontTiny,
                     color = Color.Gray,
                     modifier = Modifier.padding(top = 6.dp)
                 )
@@ -89,20 +87,20 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                 ) {
                     Text(
                         text = product.newPrice,
-                        fontSize = 12.sp,
+                        fontSize =  Dimens.fontSmaller,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         textDecoration = TextDecoration.LineThrough,
                         text = product.oldPrice,
-                        fontSize = 12.sp,
+                        fontSize = Dimens.fontSmaller,
                         color = Color.Gray,
                     )
                 }
                 Text(
                     modifier = Modifier.padding(top = 6.dp),
                     text = product.discount,
-                    fontSize = 8.sp,
+                    fontSize = Dimens.fontTiny,
                     color = Color(0xFF098109),
                 )
             }
@@ -115,12 +113,9 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                 .clickable {
                     favorited = !favorited
                     val message = if (favorited) "Product added to favorites" else "Product removed from favorites"
-                    val result = if (favorited) ProductAction.Favorite(product) else ProductAction.RemoveFavorite(
-                        product
+                    val result = if (favorited) ProductAction.Favorite(product, message) else ProductAction.RemoveFavorite(
+                        product, message
                     )
-                    coroutine.launch {
-                        snackbar.showSnackbar(message)
-                    }
                     onClick(result)
                 }
                 .align(Alignment.TopEnd)
@@ -134,24 +129,9 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
 }
 
 sealed class ProductAction {
-    data class Favorite(val product: ProductUI) : ProductAction()
-    data class RemoveFavorite(val product: ProductUI) : ProductAction()
+    data class Favorite(val product: ProductUI, val message: String) : ProductAction()
+    data class RemoveFavorite(val product: ProductUI, val message: String) : ProductAction()
     data class Navigate(val product: ProductUI) : ProductAction()
-}
-
-@Preview()
-@Composable
-private fun ProductComponentPreview() {
-    ProductComponent(
-        ProductUI(
-        title = "Shoes",
-        oldPrice = "R$ 100,00",
-        newPrice = "R$ 200,00",
-        discount = "20% OFF",
-        description = "",
-        images = listOf(""),
-        category = "Shoes"
-    )
-    ) {}
+    data class AddToCart(val product: ProductUI) : ProductAction()
 }
 

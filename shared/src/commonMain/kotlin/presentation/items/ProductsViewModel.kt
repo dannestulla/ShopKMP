@@ -47,4 +47,8 @@ class ProductsViewModel() : CoroutineViewModel(), KoinComponent {
             }
         }
     }
+
+    fun addToCart(product: ProductUI) {
+        repository.addToCart(product)
+    }
 }

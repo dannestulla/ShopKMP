@@ -1,8 +1,10 @@
 package br.gohan.shopsample
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,9 +17,12 @@ import br.gohan.shopsample.components.topbar.setTopTitle
 import br.gohan.shopsample.ui.ShopTheme
 import presentation.favorites.SharedFavoritesViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import br.gohan.shopsample.ui.Dimens
+import presentation.items.ProductsViewModel
 
 
 @Composable
@@ -25,13 +30,16 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
     ShopTheme {
         val navController = rememberNavController()
         val backStackEntry = navController.currentBackStackEntryAsState()
+        val snackbar = SnackbarHostState()
 
         var selectedRoute by remember {
-            mutableStateOf((backStackEntry.value?.destination?.route
-                ?: AppRoutes.CATEGORIES.name).getRoute())
+            mutableStateOf(
+                (backStackEntry.value?.destination?.route
+                    ?: AppRoutes.CATEGORIES.name).getRoute()
+            )
         }
 
-        val currentSearch = remember {
+        var currentSearch by remember {
             mutableStateOf<String?>(null)
         }
 
@@ -46,8 +54,11 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
         }
 
         val favoritesViewModel = remember { SharedFavoritesViewModel() }
+        val productsViewModel = remember { ProductsViewModel() }
+        val coroutine = rememberCoroutineScope()
 
         Scaffold(
+            snackbarHost = { SnackbarHost(snackbar) },
             topBar = {
                 TopBar(
                     topBarState
@@ -58,10 +69,11 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
                         favoritesViewModel,
                         currentSearch,
                         selectedRoute
-                    )
+                    ) {
+                        currentSearch = it
+                    }
                 }
             },
-            modifier = Modifier.fillMaxSize(),
             bottomBar = {
                 BottomNavBar(
                     selectedRoute
@@ -70,18 +82,21 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
                     navController.navigate(it.name)
                 }
             }
-        ) { _ ->
+        ) { paddingValues ->
             Surface(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.padding(horizontal = Dimens.paddingLarge),
             ) {
-                ShopNavHost(
-                    AppState(
+                ShopNavigation(
+                    AppParameters(
                         navController,
-                        currentSearch.value,
+                        currentSearch,
                         topBarState,
                         favoritesViewModel,
-                        dataStoreManager
+                        dataStoreManager,
+                        paddingValues,
+                        snackbar,
+                        coroutine,
+                        productsViewModel
                     )
                 )
             }

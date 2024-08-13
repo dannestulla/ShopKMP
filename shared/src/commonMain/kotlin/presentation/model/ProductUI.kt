@@ -10,6 +10,8 @@ data class ProductUI(
     val discount: String,
     val description: String,
     val images: List<String>,
-    val category: String
+    val category: String,
+    val isFavorite: Boolean = false,
+    val sizeSelected: String? = null
 )
 

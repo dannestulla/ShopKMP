@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -28,16 +28,16 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun BottomNavBar(selected: AppRoutes, callback: (AppRoutes) -> Unit) {
     return Column(
-        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Bottom
     ) {
         Box(
             modifier = Modifier.shadow(20.dp).height(4.dp).fillMaxWidth()
         )
             BottomAppBar(
-                backgroundColor = Color.White,
+                modifier = Modifier.height(120.dp),
+                containerColor = Color.White,
             ) {
-                BottomNavigationItem(
+                NavigationBarItem(
                     selected = selected == AppRoutes.CATEGORIES,
                     onClick = {
                         callback.invoke(AppRoutes.CATEGORIES)
@@ -61,7 +61,7 @@ fun BottomNavBar(selected: AppRoutes, callback: (AppRoutes) -> Unit) {
                         }
                     }
                 )
-                BottomNavigationItem(
+                NavigationBarItem(
                     selected = selected == AppRoutes.FAVORITES,
                     onClick = { callback.invoke(AppRoutes.FAVORITES) },
                     label = {
@@ -83,7 +83,7 @@ fun BottomNavBar(selected: AppRoutes, callback: (AppRoutes) -> Unit) {
                         }
                     }
                 )
-                BottomNavigationItem(
+                NavigationBarItem(
                     selected = selected == AppRoutes.CHECKOUT,
                     onClick = { callback.invoke(AppRoutes.CHECKOUT) },
                     label = {

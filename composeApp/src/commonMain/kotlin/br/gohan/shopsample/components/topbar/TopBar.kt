@@ -1,17 +1,18 @@
 package br.gohan.shopsample.components.topbar
 
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -24,11 +25,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import br.gohan.shopsample.AppRoutes
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import br.gohan.shopsample.ui.Dimens
 import presentation.favorites.SharedFavoritesViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     state: TopBarState,
@@ -50,17 +53,17 @@ fun TopBar(
                 }
                 TextField(
                     modifier = Modifier.focusRequester(focusRequester = focusRequester),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        backgroundColor = Color.White,
-                        cursorColor = Color.Black
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White
                     ),
+                    textStyle = TextStyle(fontSize = Dimens.fontMedium),
                     value = search, onValueChange = {
                         action(TopBarAction.Search(it))
                         search = it
                     })
                 return@TopAppBar
             } else {
-                Text(title)
+                Text(title, fontSize = Dimens.fontLarge)
             }
         },
         navigationIcon = {
@@ -110,10 +113,10 @@ internal fun TopBarAction.handle(
     navController: NavHostController,
     topBarState: TopBarState,
     favoritesViewModel: SharedFavoritesViewModel,
-    currentSearch: MutableState<String?>,
+    currentSearch: String?,
     selectedRoute: AppRoutes,
-
-    ) {
+    searchActive: (String?) -> Unit
+) {
     when (this) {
         is TopBarAction.Back -> {
             navController.popBackStack()
@@ -125,11 +128,11 @@ internal fun TopBarAction.handle(
         }
 
         is TopBarAction.Search -> {
-            currentSearch.value = this.search
+            searchActive(this.search)
         }
 
         is TopBarAction.CancelSearch -> {
-            currentSearch.value = null
+            searchActive(null)
         }
     }
 }

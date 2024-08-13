@@ -1,16 +1,24 @@
 package br.gohan.shopsample.screens
 
+import DropdownMenuComponent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
 import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -18,28 +26,49 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import br.gohan.shopsample.AppParameters
 import br.gohan.shopsample.ui.AppColor
 import br.gohan.shopsample.ui.Dimens
-import br.gohan.shopsample.ui.ShopTheme
 import coil3.compose.AsyncImage
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.launch
 import presentation.model.ProductUI
-import shopsample.composeapp.generated.resources.Res
-import shopsample.composeapp.generated.resources.orange_svgrepo_com
 
 @Composable
-fun ProductScreen(product: ProductUI, addToCart: () -> Unit) {
+fun ProductScreen(appParameters: AppParameters) = with(appParameters) {
+    var product by remember { mutableStateOf<ProductUI?>(null) }
+    coroutine.launch {
+        appParameters.dataStoreManager.retrieveProduct()?.also {
+            favoritesViewModel.checkIfIsFavorite(it.title).also { isFavorite ->
+                product = it.copy(isFavorite = isFavorite)
+            }
+        }
+    }
+    product?.let {
+        ProductScreenStateless(it, paddingValues) { product ->
+            productsViewModel.addToCart(product)
+            coroutine.launch {
+                appParameters.snackbar.showSnackbar(
+                    "Product added to cart"
+                )
+            }
+        }
+    } ?: run {
+        LoadingScreen()
+    }
+}
+
+@Composable
+fun ProductScreenStateless(product: ProductUI, paddingValues: PaddingValues, addToCart: (ProductUI) -> Unit) {
     val imageNumberSelected = remember { mutableIntStateOf(0) }
     val scrollState = rememberScrollState()
-    val dropdownExpanded by remember { mutableStateOf(false) }
-    var sizeSelected by remember { mutableStateOf("40") }
+    var sizeSelected by remember { mutableStateOf("37") }
 
     val imageSelected by remember {
         derivedStateOf {
@@ -61,10 +90,11 @@ fun ProductScreen(product: ProductUI, addToCart: () -> Unit) {
 
     Column(
         modifier = Modifier
-            .padding(Dimens.paddingLarge)
+            .padding(paddingValues)
             .verticalScroll(scrollState)
             .fillMaxSize()
     ) {
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingMedium))
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,15 +119,18 @@ fun ProductScreen(product: ProductUI, addToCart: () -> Unit) {
                         }
                         .height(100.dp),
                     model = product.images[it],
-                    placeholder = painterResource(Res.drawable.orange_svgrepo_com),
                     contentDescription = product.title + "image")
             }
         }
-        Spacer(modifier = Modifier.padding(top = Dimens.paddingExtraHuge))
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
         Text(text = product.category, fontSize = Dimens.fontSmall, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingSmall))
         Text(text = product.title, fontSize = Dimens.fontLarge, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.Bottom
+        ) {
             Text(
                 text = product.oldPrice,
                 textDecoration = TextDecoration.LineThrough,
@@ -106,27 +139,41 @@ fun ProductScreen(product: ProductUI, addToCart: () -> Unit) {
             )
             Text(text = product.newPrice, fontSize = Dimens.fontSmall)
             Spacer(modifier = Modifier.padding(top = Dimens.paddingSmall))
-            Text(text = product.discount, fontSize = Dimens.fontSmall, color = AppColor.green)
+            Text(text = product.discount, fontSize = Dimens.fontSmaller, color = AppColor.green)
         }
-        Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
-        Text(text = "Sizes", fontSize = Dimens.fontLarge, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
-        /*DropdownMenu(expanded = dropdownExpanded, onDismissRequest = { }) {
-            DropdownMenuItem(onClick = { sizeSelected = "4" }) {
-                Text(text = "teste")
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingExtraLarge))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                modifier = Modifier.padding(top = 3.dp),
+                text = "Size:", fontSize = Dimens.fontMedium
+            )
+            Spacer(modifier = Modifier.padding(horizontal = 20.dp))
+            val sizes = listOf("37", "38", "39", "40", "41", "42", "43", "44")
+            DropdownMenuComponent(sizes) {
+                sizeSelected = it
             }
-        }*/
-        Button(
-            shape = MaterialTheme.shapes.large,
-            modifier = Modifier
-            .height(50.dp)
-            .fillMaxWidth()
-            .padding(horizontal = Dimens.paddingSmall), onClick = { addToCart() }) {
-            Text(text = "Add to cart")
         }
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
+        Text(product.description, )
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingHuge))
+        Button(
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.paddingSmall), onClick = {
+                    product.copy(sizeSelected = sizeSelected).also {
+                        addToCart(it)
+                    }
+
+                }) {
+            Text(text = "Add to cart", fontSize = Dimens.fontSmall, color = Color.White)
+        }
+        Spacer(modifier = Modifier.padding(top = Dimens.paddingExtraHuge))
+
     }
 }
-
 
 internal fun calculateProgress(currentIndex: Int, totalItems: Int): Float {
     return if (currentIndex == 0) {
@@ -138,27 +185,3 @@ internal fun calculateProgress(currentIndex: Int, totalItems: Int): Float {
     }
 }
 
-@Preview()
-@Composable
-private fun ProductScreenPreview() {
-    ShopTheme {
-        ProductScreen(
-            ProductUI(
-                title = "Shoes",
-                oldPrice = "R$ 100,00",
-                newPrice = "R$ 200,00",
-                discount = "20% OFF",
-                description = "",
-                category = "Shoes",
-                images = listOf(
-                    "assd",
-                    "asdsad",
-                    "asdsad",
-                    "asdsad",
-                    "asdsad",
-                    "asdsad",
-                )
-            )
-        , {})
-    }
-}

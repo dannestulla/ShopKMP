@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
@@ -46,6 +47,8 @@ fun CategoryComponent(categories: Categories, onClick: (String) -> Unit) {
                     contentDescription = categories.name
                 )
                 Text(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = Dimens.fontSmaller,
                     text = categories.name,
                     modifier = Modifier
                         .padding(top = Dimens.paddingSmall, start = Dimens.paddingMedium)

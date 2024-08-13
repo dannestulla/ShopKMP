@@ -13,7 +13,7 @@ SELECT *
 FROM favorites
 ORDER BY timestamp DESC;
 
-getFavoriteById:
+getFavoriteTitle:
 SELECT *
 FROM favorites
 WHERE title = ?;

@@ -24,7 +24,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally) {
         CircularProgressIndicator(color = Color.Black, strokeWidth = 3.dp, modifier = Modifier.width(40.dp))
         Spacer(modifier = Modifier.padding(top = Dimens.paddingHuge))
-        Text("Loading...", fontSize = Dimens.fontSmall)
+        Text("Loading...", fontSize = Dimens.fontSmaller)
     }
 }
 
