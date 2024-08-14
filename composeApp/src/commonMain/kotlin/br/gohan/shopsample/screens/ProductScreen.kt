@@ -145,21 +145,23 @@ fun ProductScreenStateless(
         Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Text(
+                text = product.newPrice, fontSize = Dimens.fontSmall,
+                style = TextStyle(
+                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                    fontWeight = FontWeight.Bold
+                ),
+            )
+            Spacer(modifier = Modifier.padding(horizontal = Dimens.paddingSmall))
             Text(
                 text = product.oldPrice,
                 textDecoration = TextDecoration.LineThrough,
                 fontSize = Dimens.fontSmall,
                 color = Color.Gray
             )
-            Text(
-                text = product.newPrice, fontSize = Dimens.fontSmall,
-                style = TextStyle(
-                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                ),
-            )
-            Spacer(modifier = Modifier.padding(top = Dimens.paddingSmall))
+            Spacer(modifier = Modifier.padding(top = Dimens.paddingSmaller))
             Text(
                 text = product.discount, fontSize = Dimens.fontSmaller, color = AppColor.green,
                 style = TextStyle(

@@ -64,7 +64,7 @@ class ShopRepository(
         }
     }
 
-    fun addToCart(product: ProductUI) {
+    fun addToCheckout(product: ProductUI) {
         checkoutTable.addToCheckout(
             title = product.title,
             price = product.newPrice,

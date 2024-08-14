@@ -33,6 +33,6 @@ class CheckoutViewModel : CoroutineViewModel(), KoinComponent {
     }
 
     fun addToCart(product: ProductUI) {
-        repository.addToCart(product)
+        repository.addToCheckout(product)
     }
 }
