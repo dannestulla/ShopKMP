@@ -1,7 +1,7 @@
 package br.gohan.shopsample
 
 import kotlinx.serialization.json.Json
-import presentation.model.ProductUI
+import presentation.products.ProductUI
 
 
 class NativeDataStoreManager : DataStoreManager {

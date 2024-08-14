@@ -1,6 +1,8 @@
 package presentation.favorites
 
-import presentation.model.ProductUI
+import presentation.products.ProductUI
+import kotlin.jvm.JvmInline
 
 
-data class FavoritesState(val products: List<ProductUI>? = null)
+@JvmInline
+value class FavoritesState(val products: List<ProductUI>? = null)

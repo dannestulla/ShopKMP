@@ -8,7 +8,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
-import presentation.model.ProductUI
+import presentation.products.ProductUI
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "shop_pref")
 

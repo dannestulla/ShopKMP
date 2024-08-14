@@ -10,15 +10,15 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import data.model.Categories
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -47,8 +47,9 @@ fun CategoryComponent(categories: Categories, onClick: (String) -> Unit) {
                     contentDescription = categories.name
                 )
                 Text(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = Dimens.fontSmaller,
+                    style = TextStyle(
+                        fontFamily = MaterialTheme.typography.titleSmall.fontFamily
+                    ),
                     text = categories.name,
                     modifier = Modifier
                         .padding(top = Dimens.paddingSmall, start = Dimens.paddingMedium)
@@ -58,12 +59,3 @@ fun CategoryComponent(categories: Categories, onClick: (String) -> Unit) {
         }
     }
 }
-
-@Preview
-@Composable
-private fun CategoryComponentPreview() {
-    CategoryComponent(categories = Categories("Shoes", "")) {
-
-    }
-}
-

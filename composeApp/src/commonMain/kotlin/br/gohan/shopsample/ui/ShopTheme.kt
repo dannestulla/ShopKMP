@@ -1,18 +1,19 @@
 package br.gohan.shopsample.ui
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.Font
+import shopsample.composeapp.generated.resources.OpenSans_Bold
+import shopsample.composeapp.generated.resources.OpenSans_Medium
+import shopsample.composeapp.generated.resources.OpenSans_Regular
 import shopsample.composeapp.generated.resources.Res
 import shopsample.composeapp.generated.resources.Rubik_Bold
 import shopsample.composeapp.generated.resources.Rubik_Regular
+
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -166,6 +167,82 @@ private val highContrastLightColorScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestLightHighContrast,
 )
 
+private val mediumContrastDarkColorScheme = darkColorScheme(
+    primary = primaryDarkMediumContrast,
+    onPrimary = onPrimaryDarkMediumContrast,
+    primaryContainer = primaryContainerDarkMediumContrast,
+    onPrimaryContainer = onPrimaryContainerDarkMediumContrast,
+    secondary = secondaryDarkMediumContrast,
+    onSecondary = onSecondaryDarkMediumContrast,
+    secondaryContainer = secondaryContainerDarkMediumContrast,
+    onSecondaryContainer = onSecondaryContainerDarkMediumContrast,
+    tertiary = tertiaryDarkMediumContrast,
+    onTertiary = onTertiaryDarkMediumContrast,
+    tertiaryContainer = tertiaryContainerDarkMediumContrast,
+    onTertiaryContainer = onTertiaryContainerDarkMediumContrast,
+    error = errorDarkMediumContrast,
+    onError = onErrorDarkMediumContrast,
+    errorContainer = errorContainerDarkMediumContrast,
+    onErrorContainer = onErrorContainerDarkMediumContrast,
+    background = backgroundDarkMediumContrast,
+    onBackground = onBackgroundDarkMediumContrast,
+    surface = surfaceDarkMediumContrast,
+    onSurface = onSurfaceDarkMediumContrast,
+    surfaceVariant = surfaceVariantDarkMediumContrast,
+    onSurfaceVariant = onSurfaceVariantDarkMediumContrast,
+    outline = outlineDarkMediumContrast,
+    outlineVariant = outlineVariantDarkMediumContrast,
+    scrim = scrimDarkMediumContrast,
+    inverseSurface = inverseSurfaceDarkMediumContrast,
+    inverseOnSurface = inverseOnSurfaceDarkMediumContrast,
+    inversePrimary = inversePrimaryDarkMediumContrast,
+    surfaceDim = surfaceDimDarkMediumContrast,
+    surfaceBright = surfaceBrightDarkMediumContrast,
+    surfaceContainerLowest = surfaceContainerLowestDarkMediumContrast,
+    surfaceContainerLow = surfaceContainerLowDarkMediumContrast,
+    surfaceContainer = surfaceContainerDarkMediumContrast,
+    surfaceContainerHigh = surfaceContainerHighDarkMediumContrast,
+    surfaceContainerHighest = surfaceContainerHighestDarkMediumContrast,
+)
+
+private val highContrastDarkColorScheme = darkColorScheme(
+    primary = primaryDarkHighContrast,
+    onPrimary = onPrimaryDarkHighContrast,
+    primaryContainer = primaryContainerDarkHighContrast,
+    onPrimaryContainer = onPrimaryContainerDarkHighContrast,
+    secondary = secondaryDarkHighContrast,
+    onSecondary = onSecondaryDarkHighContrast,
+    secondaryContainer = secondaryContainerDarkHighContrast,
+    onSecondaryContainer = onSecondaryContainerDarkHighContrast,
+    tertiary = tertiaryDarkHighContrast,
+    onTertiary = onTertiaryDarkHighContrast,
+    tertiaryContainer = tertiaryContainerDarkHighContrast,
+    onTertiaryContainer = onTertiaryContainerDarkHighContrast,
+    error = errorDarkHighContrast,
+    onError = onErrorDarkHighContrast,
+    errorContainer = errorContainerDarkHighContrast,
+    onErrorContainer = onErrorContainerDarkHighContrast,
+    background = backgroundDarkHighContrast,
+    onBackground = onBackgroundDarkHighContrast,
+    surface = surfaceDarkHighContrast,
+    onSurface = onSurfaceDarkHighContrast,
+    surfaceVariant = surfaceVariantDarkHighContrast,
+    onSurfaceVariant = onSurfaceVariantDarkHighContrast,
+    outline = outlineDarkHighContrast,
+    outlineVariant = outlineVariantDarkHighContrast,
+    scrim = scrimDarkHighContrast,
+    inverseSurface = inverseSurfaceDarkHighContrast,
+    inverseOnSurface = inverseOnSurfaceDarkHighContrast,
+    inversePrimary = inversePrimaryDarkHighContrast,
+    surfaceDim = surfaceDimDarkHighContrast,
+    surfaceBright = surfaceBrightDarkHighContrast,
+    surfaceContainerLowest = surfaceContainerLowestDarkHighContrast,
+    surfaceContainerLow = surfaceContainerLowDarkHighContrast,
+    surfaceContainer = surfaceContainerDarkHighContrast,
+    surfaceContainerHigh = surfaceContainerHighDarkHighContrast,
+    surfaceContainerHighest = surfaceContainerHighestDarkHighContrast,
+)
+
 @Composable
 fun ShopTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -186,31 +263,19 @@ fun ShopTheme(
         ),
     )
 
-    val typography = Typography(
-        TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp
+    val bodyFontFamily = FontFamily(
+        Font(
+            Res.font.OpenSans_Regular,
+            weight = FontWeight.Normal
         ),
-        TextStyle(
-            fontFamily = displayFontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+        Font(
+            Res.font.OpenSans_Medium,
+            weight = FontWeight.Medium
         ),
-        TextStyle(
-            fontFamily = displayFontFamily,
-            fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
-        ),
-        TextStyle(
-            fontFamily = displayFontFamily,
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp
-        ),
-        TextStyle(
-            fontFamily = displayFontFamily,
-            fontWeight = FontWeight.Normal,
-            fontSize = 12.sp
-        ),
+        Font(
+            Res.font.OpenSans_Bold,
+            weight = FontWeight.Bold
+        )
     )
 
     val colorScheme = when {
@@ -220,7 +285,7 @@ fun ShopTheme(
 
   MaterialTheme(
     colorScheme = colorScheme,
-    typography = typography,
+      typography = getAppTypography(displayFontFamily, bodyFontFamily),
     content = content
   )
 }

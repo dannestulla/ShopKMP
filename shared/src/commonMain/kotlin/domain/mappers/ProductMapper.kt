@@ -1,8 +1,12 @@
-package domain
+package domain.mappers
 
 import data.model.Category
 import data.model.Product
-import presentation.model.ProductUI
+import domain.currencyToDouble
+import domain.setDiscount
+import domain.toCurrency
+import domain.toPercentage
+import presentation.products.ProductUI
 
 internal fun Product.toProductUI(discount: Double): ProductUI {
     return ProductUI(

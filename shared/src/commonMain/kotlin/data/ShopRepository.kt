@@ -1,15 +1,16 @@
 package data
 
 import br.gohan.shopsample.database.ShopSampleDatabase
-import data.model.Category
 import data.model.Categories
+import data.model.Category
 import data.model.Product
+import database.Checkout
 import database.Favorites
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.datetime.Clock
-import presentation.model.ProductUI
+import presentation.products.ProductUI
 
 class ShopRepository(
     private val httpClient: HttpClient,
@@ -64,7 +65,19 @@ class ShopRepository(
     }
 
     fun addToCart(product: ProductUI) {
+        checkoutTable.addToCheckout(
+            title = product.title,
+            price = product.newPrice,
+            oldPrice = product.oldPrice,
+            description = product.description,
+            image = product.images.firstOrNull() ?: "",
+            category = product.category,
+            timestamp = Clock.System.now().toEpochMilliseconds(),
+            sizeSelected = product.sizeSelected ?: "40"
+        )
+    }
 
-
+    fun getCheckoutItems(): List<Checkout> {
+        return checkoutTable.getCheckoutItems().executeAsList()
     }
 }

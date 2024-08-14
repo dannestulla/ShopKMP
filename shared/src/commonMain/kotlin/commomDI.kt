@@ -5,15 +5,15 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
-import org.koin.dsl.module
-import presentation.categories.SharedCategoriesViewModel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import io.ktor.client.plugins.logging.Logging
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
-import presentation.favorites.SharedFavoritesViewModel
-import presentation.items.ProductsViewModel
+import org.koin.dsl.module
+import presentation.categories.CategoriesViewModel
+import presentation.favorites.FavoritesViewModel
+import presentation.products.ProductsViewModel
 
 fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     appDeclaration()
@@ -42,9 +42,9 @@ val api = module {
 }
 
 val core = module {
-    single { SharedCategoriesViewModel() }
+    single { CategoriesViewModel() }
     single { ProductsViewModel() }
-    single { SharedFavoritesViewModel() }
+    single { FavoritesViewModel() }
     factory { ShopRepository(get(), get()) }
 
     single {

@@ -2,7 +2,7 @@ package br.gohan.shopsample
 
 
 import androidx.datastore.preferences.core.stringPreferencesKey
-import presentation.model.ProductUI
+import presentation.products.ProductUI
 
 
 val PRODUCT_KEY = stringPreferencesKey("product")

@@ -15,21 +15,21 @@ import br.gohan.shopsample.screens.FavoritesScreen
 import br.gohan.shopsample.screens.ProductScreen
 import br.gohan.shopsample.screens.ProductsScreen
 import kotlinx.coroutines.CoroutineScope
-import presentation.categories.SharedCategoriesViewModel
-import presentation.favorites.SharedFavoritesViewModel
-import presentation.items.ProductsViewModel
+import presentation.categories.CategoriesViewModel
+import presentation.checkout.CheckoutViewModel
+import presentation.favorites.FavoritesViewModel
+import presentation.products.ProductsViewModel
 
 @Composable
 fun ShopNavigation(
-    appParamaters: AppParameters,
-) = with(appParamaters) {
-
+    shopParameters: ShopParameters,
+) = with(shopParameters) {
     NavHost(
         navController = navController,
         startDestination = AppRoutes.CATEGORIES.name
     ) {
         composable(route = AppRoutes.CATEGORIES.name) {
-            val categoriesViewModel = remember { SharedCategoriesViewModel() }
+            val categoriesViewModel = remember { CategoriesViewModel() }
             val state = categoriesViewModel.state.collectAsState()
             CategoriesScreen(state.value.categories, currentSearch, paddingValues) {
                 topBarState.title = it
@@ -41,32 +41,35 @@ fun ShopNavigation(
             val state = favoritesViewModel.state.collectAsState()
             FavoritesScreen(
                 state.value.products,
-                appParamaters
+                shopParameters
             )
         }
         composable(route = AppRoutes.CHECKOUT.name) {
-            CheckoutScreen()
+            CheckoutScreen(paddingValues, checkoutViewModel) {
+
+            }
         }
 
         composable(route = AppRoutes.PRODUCTS.name) {
-            ProductsScreen(currentSearch, appParamaters)
+            ProductsScreen(currentSearch, shopParameters)
         }
         composable(
             route = AppRoutes.PRODUCT.name
         ) {
-            ProductScreen(appParamaters)
+            ProductScreen(shopParameters)
         }
     }
 }
 
-data class AppParameters(
+data class ShopParameters(
     val navController: NavHostController,
     val currentSearch: String?,
     val topBarState: TopBarState,
-    val favoritesViewModel: SharedFavoritesViewModel,
+    val favoritesViewModel: FavoritesViewModel,
     val dataStoreManager: DataStoreManager,
     val paddingValues: PaddingValues,
     val snackbar: SnackbarHostState,
     val coroutine: CoroutineScope,
-    val productsViewModel: ProductsViewModel
+    val productsViewModel: ProductsViewModel,
+    val checkoutViewModel: CheckoutViewModel
 )

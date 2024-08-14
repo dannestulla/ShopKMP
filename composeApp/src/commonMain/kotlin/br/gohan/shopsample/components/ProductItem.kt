@@ -1,67 +1,72 @@
 package br.gohan.shopsample.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import br.gohan.shopsample.ui.AppColor
-import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
-import coil3.compose.rememberAsyncImagePainter
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import presentation.model.ProductUI
+import presentation.products.ProductUI
 
 @Composable
-fun FavoriteComponent(product: ProductUI) {
+fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: (ProductAction) -> Unit) {
+    var favorited by remember {
+        mutableStateOf(isFavorited)
+    }
+
     Box(
         modifier = Modifier
             .wrapContentHeight()
             .width(200.dp)
     ) {
         Card(
+            onClick = { onClick(ProductAction.Navigate(product)) },
             modifier = Modifier
-                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(3.dp)
                 .width(200.dp)
         ) {
-            Column(modifier = Modifier.padding(Dimens.paddingLarge)) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(150.dp)
                         .align(Alignment.CenterHorizontally),
-                    placeholder = rememberAsyncImagePainter(
-                        Brush.linearGradient(
-                            listOf(
-                                Color.White,
-                                Color(0xFFDDDDDD)
-                            )
-                        )
-                    ),
                     model = product.images.first(),
                     contentDescription = product.title
                 )
                 Text(
                     text = product.title,
+                    style = TextStyle(
+                        fontFamily = MaterialTheme.typography.titleSmall.fontFamily,
+                    ),
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .align(Alignment.Start),
@@ -69,9 +74,11 @@ fun FavoriteComponent(product: ProductUI) {
                 )
                 Text(
                     text = product.category,
-                    fontSize = 10.sp,
+                    style = TextStyle(
+                        fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                    ),
                     color = Color.Gray,
-                    modifier = Modifier.padding(top = Dimens.paddingSmall)
+                    modifier = Modifier.padding(top = 6.dp)
                 )
                 Row(
                     modifier = Modifier
@@ -81,49 +88,58 @@ fun FavoriteComponent(product: ProductUI) {
                 ) {
                     Text(
                         text = product.newPrice,
-                        fontSize = Dimens.fontSmall,
+                        style = TextStyle(
+                            fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                        ),
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         textDecoration = TextDecoration.LineThrough,
                         text = product.oldPrice,
-                        fontSize = Dimens.fontSmall,
+                        style = TextStyle(
+                            fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                        ),
                         color = Color.Gray,
                     )
                 }
                 Text(
                     modifier = Modifier.padding(top = 6.dp),
                     text = product.discount,
-                    fontSize = Dimens.fontSmall,
-                    color = AppColor.green,
+                    style = TextStyle(
+                        fontFamily = MaterialTheme.typography.labelMedium.fontFamily,
+                    ),
+                    color = Color(0xFF098109),
                 )
             }
         }
+
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(40.dp)
-                .align(Alignment.TopEnd) // Alinha o Box no canto superior direito
+                .clickable {
+                    favorited = !favorited
+                    val message = if (favorited) "Product added to favorites" else "Product removed from favorites"
+                    val result = if (favorited) ProductAction.Favorite(product, message) else ProductAction.RemoveFavorite(
+                        product, message
+                    )
+                    onClick(result)
+                }
+                .align(Alignment.TopEnd).padding(10.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Favorite,
+                modifier = Modifier.fillMaxSize().sizeIn(35.dp),
+                imageVector = if (favorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
             )
         }
     }
 }
 
-@Preview
-@Composable
-private fun FavoriteComponentPreview() {
-    FavoriteComponent(product = ProductUI(
-        title = "Shoes",
-        oldPrice = "R$ 100,00",
-        newPrice = "R$ 200,00",
-        discount = "20% OFF",
-        description = "",
-        images = listOf(""),
-        category = "Shoes"
-    )
-    )
+sealed class ProductAction {
+    data class Favorite(val product: ProductUI, val message: String) : ProductAction()
+    data class RemoveFavorite(val product: ProductUI, val message: String) : ProductAction()
+    data class Navigate(val product: ProductUI) : ProductAction()
+    data class AddToCart(val product: ProductUI) : ProductAction()
 }
+

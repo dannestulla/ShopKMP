@@ -12,18 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import br.gohan.shopsample.AppRoutes
-import br.gohan.shopsample.AppParameters
+import br.gohan.shopsample.ShopParameters
 import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
-import br.gohan.shopsample.ui.Dimens
 import kotlinx.coroutines.launch
-import presentation.model.ProductUI
+import presentation.products.ProductUI
 
 @Composable
 fun FavoritesScreen(
     product: List<ProductUI>?,
-    appParameters: AppParameters,
-) = with(appParameters) {
+    shopParameters: ShopParameters,
+) = with(shopParameters) {
     FavoritesScreenStateless(product, paddingValues) { action ->
         when (action) {
             is ProductAction.Navigate -> {
@@ -61,7 +60,7 @@ fun FavoritesScreenStateless(
     }
 
     Column(
-        Modifier.padding(paddingValues),
+        Modifier.padding(paddingValues).fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -69,7 +68,6 @@ fun FavoritesScreenStateless(
             Text("No favorites yet")
         } else {
             LazyVerticalGrid(
-                modifier = Modifier.padding(Dimens.paddingMedium),
                 columns = GridCells.Fixed(2)
             ) {
                 items(product.size) { index ->

@@ -1,4 +1,4 @@
-package presentation.items
+package presentation.products
 
 import data.ShopRepository
 import domain.CURRENT_DISCOUNT
@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import presentation.CoroutineViewModel
-import presentation.model.ProductUI
 import presentation.favorites.FavoritesState
 
 
@@ -46,9 +45,5 @@ class ProductsViewModel() : CoroutineViewModel(), KoinComponent {
                 )
             }
         }
-    }
-
-    fun addToCart(product: ProductUI) {
-        repository.addToCart(product)
     }
 }

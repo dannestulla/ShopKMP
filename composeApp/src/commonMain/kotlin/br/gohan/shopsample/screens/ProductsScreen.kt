@@ -3,35 +3,34 @@ package br.gohan.shopsample.screens
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import br.gohan.shopsample.AppParameters
 import br.gohan.shopsample.AppRoutes
+import br.gohan.shopsample.ShopParameters
 import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
 import br.gohan.shopsample.components.topbar.setTopTitle
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import presentation.items.ProductsViewModel
-import presentation.model.ProductUI
+import presentation.products.ProductUI
+import presentation.products.ProductsViewModel
 
 @Composable
 fun ProductsScreen(
     currentSearch: String?,
-    appParamaters: AppParameters
-) = with(appParamaters) {
+    shopParameters: ShopParameters
+) = with(shopParameters) {
     val productsViewModel = remember { ProductsViewModel() }
     val products = productsViewModel.state.collectAsState().value.products
 
-    ProductsScreenStateless(products, currentSearch, appParamaters) { action ->
+    ProductsScreenStateless(products, currentSearch, shopParameters) { action ->
         when (action) {
             is ProductAction.Navigate -> {
                 topBarState.title = setTopTitle(AppRoutes.PRODUCT.name)
                 coroutine.launch {
-                    appParamaters.dataStoreManager.cacheProduct(action.product)
+                    shopParameters.dataStoreManager.cacheProduct(action.product)
                 }
                 navController.navigate(AppRoutes.PRODUCT.name)
             }
@@ -51,7 +50,7 @@ fun ProductsScreen(
             }
 
             is ProductAction.AddToCart -> {
-                productsViewModel.addToCart(action.product)
+                checkoutViewModel.addToCart(action.product)
                 coroutine.launch {
                     snackbar.showSnackbar("Added to cart")
                 }
@@ -65,7 +64,7 @@ fun ProductsScreen(
 fun ProductsScreenStateless(
     products: List<ProductUI>?,
     currentSearch: String?,
-    appParamaters: AppParameters,
+    appParamaters: ShopParameters,
     onClick: (ProductAction) -> Unit
 ) {
     if (products == null) {

@@ -6,23 +6,24 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import br.gohan.shopsample.components.BottomNavBar
 import br.gohan.shopsample.components.topbar.TopBar
 import br.gohan.shopsample.components.topbar.TopBarState
 import br.gohan.shopsample.components.topbar.handle
 import br.gohan.shopsample.components.topbar.setTopTitle
-import br.gohan.shopsample.ui.ShopTheme
-import presentation.favorites.SharedFavoritesViewModel
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import br.gohan.shopsample.ui.Dimens
-import presentation.items.ProductsViewModel
+import br.gohan.shopsample.ui.ShopTheme
+import presentation.checkout.CheckoutViewModel
+import presentation.favorites.FavoritesViewModel
+import presentation.products.ProductsViewModel
 
 
 @Composable
@@ -53,8 +54,9 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
             )
         }
 
-        val favoritesViewModel = remember { SharedFavoritesViewModel() }
+        val favoritesViewModel = remember { FavoritesViewModel() }
         val productsViewModel = remember { ProductsViewModel() }
+        val checkoutViewModel = remember { CheckoutViewModel() }
         val coroutine = rememberCoroutineScope()
 
         Scaffold(
@@ -87,7 +89,7 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
                 modifier = Modifier.padding(horizontal = Dimens.paddingLarge),
             ) {
                 ShopNavigation(
-                    AppParameters(
+                    ShopParameters(
                         navController,
                         currentSearch,
                         topBarState,
@@ -96,7 +98,8 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
                         paddingValues,
                         snackbar,
                         coroutine,
-                        productsViewModel
+                        productsViewModel,
+                        checkoutViewModel
                     )
                 )
             }

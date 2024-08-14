@@ -1,4 +1,4 @@
-package presentation.model
+package presentation.products
 
 import kotlinx.serialization.Serializable
 

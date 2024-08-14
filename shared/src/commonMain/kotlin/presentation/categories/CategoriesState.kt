@@ -1,8 +1,10 @@
 package presentation.categories
 
 import data.model.Categories
+import kotlin.jvm.JvmInline
 
 
-data class CategoriesState(
+@JvmInline
+value class CategoriesState(
     val categories : List<Categories>? = null
 )
