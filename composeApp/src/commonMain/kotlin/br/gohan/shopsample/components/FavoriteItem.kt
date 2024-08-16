@@ -29,7 +29,7 @@ import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import presentation.products.ProductUI
+import presentation.model.ProductUI
 
 @Composable
 fun FavoriteComponent(product: ProductUI) {

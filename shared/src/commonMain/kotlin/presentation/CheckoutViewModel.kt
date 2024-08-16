@@ -1,4 +1,4 @@
-package presentation.checkout
+package presentation
 
 import data.ShopRepository
 import domain.mappers.toCheckoutUI
@@ -7,12 +7,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import presentation.CoroutineViewModel
+import presentation.model.CheckoutState
+import presentation.model.CheckoutUI
 
 
-class CheckoutViewModel : CoroutineViewModel(), KoinComponent {
-    private val repository by inject<ShopRepository>()
+class CheckoutViewModel(
+    private val repository: ShopRepository
+) : CoroutineViewModel(), KoinComponent {
 
     private val viewModelScope = coroutineScope
 

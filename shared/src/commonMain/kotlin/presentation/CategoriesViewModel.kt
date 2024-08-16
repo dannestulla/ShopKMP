@@ -1,4 +1,4 @@
-package presentation.categories
+package presentation
 
 import data.ShopRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -6,12 +6,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import presentation.CoroutineViewModel
+import presentation.model.CategoriesState
 
 class CategoriesViewModel(
+    private val repository: ShopRepository
 ) : CoroutineViewModel(), KoinComponent {
-    private val repository by inject<ShopRepository>()
 
     private val viewModelScope = coroutineScope
 

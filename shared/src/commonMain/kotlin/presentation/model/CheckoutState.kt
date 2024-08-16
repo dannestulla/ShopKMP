@@ -1,4 +1,4 @@
-package presentation.checkout
+package presentation.model
 
 import kotlin.jvm.JvmInline
 

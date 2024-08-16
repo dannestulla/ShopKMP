@@ -1,4 +1,4 @@
-package presentation.categories
+package presentation.model
 
 import data.model.Categories
 import kotlin.jvm.JvmInline

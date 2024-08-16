@@ -7,19 +7,18 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import br.gohan.shopsample.components.CategoryComponent
-import presentation.categories.CategoriesViewModel
-
+import org.koin.compose.koinInject
+import presentation.CategoriesViewModel
 
 @Composable
 fun CategoriesScreen(
     currentSearch: String?,
     paddingValues: PaddingValues,
+    categoriesViewModel: CategoriesViewModel = koinInject(),
     onClick: (String) -> Unit
 ) {
-    val categoriesViewModel = remember { CategoriesViewModel() }
     val state by categoriesViewModel.state.collectAsState()
     val categories = state.categories
 
@@ -36,7 +35,9 @@ fun CategoriesScreen(
             }
         } ?: categories
         items(filterItems.size) { index ->
-            CategoryComponent(filterItems[index], onClick)
+            CategoryComponent(filterItems[index]) { category ->
+                onClick(category)
+            }
         }
     }
 }

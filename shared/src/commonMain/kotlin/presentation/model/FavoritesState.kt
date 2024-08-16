@@ -1,6 +1,5 @@
-package presentation.favorites
+package presentation.model
 
-import presentation.products.ProductUI
 import kotlin.jvm.JvmInline
 
 

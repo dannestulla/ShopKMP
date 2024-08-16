@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import br.gohan.shopsample.screens.ProductScreenStateless
-import presentation.products.ProductUI
+import presentation.model.ProductUI
 
 /**
  * Used to preview composable since preview inside commonMain is not working

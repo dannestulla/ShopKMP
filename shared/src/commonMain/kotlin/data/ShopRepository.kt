@@ -7,8 +7,8 @@ import data.remote.RemoteDataSource
 import database.Checkout
 import database.Favorites
 import kotlinx.coroutines.flow.Flow
-import presentation.checkout.CheckoutUI
-import presentation.products.ProductUI
+import presentation.model.CheckoutUI
+import presentation.model.ProductUI
 
 class ShopRepository(
     private val remoteDataSource: RemoteDataSource,

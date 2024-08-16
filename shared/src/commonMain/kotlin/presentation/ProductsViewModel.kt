@@ -1,4 +1,4 @@
-package presentation.products
+package presentation
 
 import data.ShopRepository
 import domain.CURRENT_DISCOUNT
@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import presentation.CoroutineViewModel
-import presentation.favorites.FavoritesState
+import presentation.model.FavoritesState
+import presentation.model.ProductUI
 
 
-class ProductsViewModel(private val category: String? = null) : CoroutineViewModel(),
+class ProductsViewModel(
+    private val category: String? = null,
+    private val repository: ShopRepository
+) : CoroutineViewModel(),
     KoinComponent {
-    private val repository by inject<ShopRepository>()
-
     private val viewModelScope = coroutineScope
 
     private val _state = MutableStateFlow(FavoritesState())

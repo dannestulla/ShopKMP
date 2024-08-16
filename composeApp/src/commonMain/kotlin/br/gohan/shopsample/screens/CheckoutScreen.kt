@@ -5,9 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Text
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
@@ -21,23 +22,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import br.gohan.shopsample.components.AcceptButton
+import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.components.CheckoutItem
 import br.gohan.shopsample.ui.Dimens
-import presentation.checkout.CheckoutUI
-import presentation.checkout.CheckoutViewModel
+import org.koin.compose.koinInject
+import presentation.CheckoutViewModel
+import presentation.model.CheckoutUI
 
 @Composable
 fun CheckoutScreen(
     paddingValues: PaddingValues,
+    checkoutViewModel: CheckoutViewModel = koinInject()
 ) {
-    val checkoutViewModel = remember { CheckoutViewModel() }
-    val checkoutItems = checkoutViewModel.state.collectAsState()
+    val checkoutItems by checkoutViewModel.state.collectAsState()
 
-    if (checkoutItems.value.checkoutItems == null) {
+    if (checkoutItems.checkoutItems == null) {
         LoadingScreen()
     } else {
-        CheckoutScreenStateless(paddingValues, checkoutItems.value.checkoutItems!!) {
+        CheckoutScreenStateless(paddingValues, checkoutItems.checkoutItems!!) {
             checkoutViewModel.removeFromCheckout(it)
         }
     }
@@ -50,7 +52,6 @@ fun CheckoutScreenStateless(
     deleteItem: (CheckoutUI) -> Unit
 ) {
     var items by remember { mutableStateOf(checkoutItems) }
-    val scrollState = rememberScrollState()
     var confirmItemDeletion by remember { mutableStateOf<CheckoutUI?>(null) }
 
     if (confirmItemDeletion != null) {
@@ -99,22 +100,14 @@ fun CheckoutScreenStateless(
                 ),
             )
         } else {
-            LazyColumn(
-                Modifier
-                    .fillMaxSize()
-            ) {
+            LazyColumn(Modifier.wrapContentHeight()) {
                 items(items.size) { index ->
                     CheckoutItem(items[index]) { productToDelete ->
                         confirmItemDeletion = productToDelete
-
                     }
                 }
             }
-            Spacer(modifier = Modifier.weight(1f))
-            AcceptButton("Finish purchase") {
-
-            }
-            Spacer(modifier = Modifier.weight(0.05F))
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }

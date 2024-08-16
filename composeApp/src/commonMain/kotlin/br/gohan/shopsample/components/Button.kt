@@ -15,15 +15,19 @@ import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.ui.Dimens
 
 @Composable
-fun AcceptButton(message: String, action: () -> Unit) {
+fun Button(
+    message: String,
+    modifier: Modifier? = Modifier,
+    action: () -> Unit
+) {
     Button(colors = ButtonColors(
         containerColor = MaterialTheme.colorScheme.secondaryContainer,
         contentColor = MaterialTheme.colorScheme.onSecondary,
         disabledContainerColor = MaterialTheme.colorScheme.surface,
         disabledContentColor = MaterialTheme.colorScheme.onSurface,
     ),
-        modifier = Modifier
-            .height(50.dp)
+        modifier = modifier
+        !!.height(50.dp)
             .fillMaxWidth()
             .padding(horizontal = Dimens.paddingSmall), onClick = {
             action()

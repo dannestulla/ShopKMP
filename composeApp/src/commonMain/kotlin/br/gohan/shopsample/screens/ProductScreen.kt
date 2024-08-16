@@ -34,17 +34,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.ShopParameters
-import br.gohan.shopsample.components.AcceptButton
+import br.gohan.shopsample.components.Button
 import br.gohan.shopsample.ui.AppColor
 import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
-import presentation.products.ProductUI
-import presentation.products.ProductsViewModel
+import org.koin.compose.koinInject
+import presentation.ProductsViewModel
+import presentation.model.ProductUI
 
 @Composable
-fun ProductScreen(shopParameters: ShopParameters) = with(shopParameters) {
-    val productsViewModel = remember { ProductsViewModel() }
+fun ProductScreen(
+    shopParameters: ShopParameters,
+    productsViewModel: ProductsViewModel = koinInject()
+) = with(shopParameters) {
     var product by remember { mutableStateOf<ProductUI?>(null) }
     coroutine.launch {
         shopParameters.dataStoreManager.retrieveProduct()?.also {
@@ -142,11 +145,11 @@ fun ProductScreenStateless(
         Text(
             text = product.title, fontSize = Dimens.fontHuge, style = TextStyle(
                 fontFamily = MaterialTheme.typography.headlineLarge.fontFamily,
-            ), fontWeight = FontWeight.Bold
+            )
         )
         Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
         Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -156,14 +159,14 @@ fun ProductScreenStateless(
                     fontWeight = FontWeight.Bold
                 ),
             )
-            Spacer(modifier = Modifier.padding(horizontal = Dimens.paddingSmall))
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = product.oldPrice,
                 textDecoration = TextDecoration.LineThrough,
                 fontSize = Dimens.fontNormal,
                 color = Color.Gray
             )
-            Spacer(modifier = Modifier.padding(top = Dimens.paddingSmaller))
+            Spacer(modifier = Modifier.weight(0.2f))
             Text(
                 text = product.discount, fontSize = Dimens.fontSmall, color = AppColor.green,
                 style = TextStyle(
@@ -177,8 +180,7 @@ fun ProductScreenStateless(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier.padding(top = 3.dp),
-                text = "Size:", fontSize = Dimens.fontLarge,
+                text = "Size:", fontSize = Dimens.fontNormal,
                 style = TextStyle(
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 ),
@@ -197,7 +199,7 @@ fun ProductScreenStateless(
             ),
         )
         Spacer(modifier = Modifier.padding(top = Dimens.paddingHuge))
-        AcceptButton("Add to cart") {
+        Button("Add to cart") {
             product.copy(sizeSelected = sizeSelected).also {
                 addToCart(it)
             }

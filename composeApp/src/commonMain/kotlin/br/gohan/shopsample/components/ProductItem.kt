@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
-import presentation.products.ProductUI
+import presentation.model.ProductUI
 
 @Composable
 fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: (ProductAction) -> Unit) {
@@ -74,8 +74,7 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                     fontSize = Dimens.fontSmall,
                     modifier = Modifier
                         .padding(top = 8.dp)
-                        .align(Alignment.Start),
-                    fontWeight = FontWeight.Bold
+                        .align(Alignment.Start)
                 )
                 Text(
                     text = product.category,

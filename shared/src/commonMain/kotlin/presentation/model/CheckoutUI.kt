@@ -1,4 +1,4 @@
-package presentation.checkout
+package presentation.model
 
 data class CheckoutUI(
     val title: String,

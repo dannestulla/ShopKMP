@@ -13,6 +13,10 @@ import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+import presentation.CategoriesViewModel
+import presentation.CheckoutViewModel
+import presentation.FavoritesViewModel
+import presentation.ProductsViewModel
 
 fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     appDeclaration()
@@ -41,6 +45,11 @@ val api = module {
 }
 
 val core = module {
+    single { CategoriesViewModel(get()) }
+    single { FavoritesViewModel(get()) }
+    single { CheckoutViewModel(get()) }
+    single { (categories: String) -> ProductsViewModel(categories, get()) }
+
     factory { ShopRepository(get(), get()) }
     factory { RemoteDataSource(get()) }
     factory { LocalDataSource(get()) }

@@ -10,8 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Clock
-import presentation.checkout.CheckoutUI
-import presentation.products.ProductUI
+import presentation.model.CheckoutUI
+import presentation.model.ProductUI
 
 class LocalDataSource(
     database: ShopSampleDatabase,

@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import br.gohan.shopsample.AppRoutes
 import br.gohan.shopsample.ShopParameters
@@ -13,16 +12,18 @@ import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import presentation.products.ProductUI
-import presentation.products.ProductsViewModel
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
+import presentation.ProductsViewModel
+import presentation.model.ProductUI
 
 @Composable
 fun ProductsScreen(
     currentSearch: String?,
     shopParameters: ShopParameters,
-    category: String
+    category: String,
+    productsViewModel: ProductsViewModel = koinInject { parametersOf(category) }
 ) = with(shopParameters) {
-    val productsViewModel = remember { ProductsViewModel(category) }
     val products = productsViewModel.state.collectAsState().value.products
 
     ProductsScreenStateless(products, currentSearch, shopParameters) { action ->

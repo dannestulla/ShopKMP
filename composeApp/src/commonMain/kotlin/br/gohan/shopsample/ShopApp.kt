@@ -1,6 +1,9 @@
 package br.gohan.shopsample
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -21,9 +24,13 @@ import br.gohan.shopsample.components.topbar.TopBar
 import br.gohan.shopsample.components.topbar.TopBarAction
 import br.gohan.shopsample.components.topbar.TopBarState
 import br.gohan.shopsample.components.topbar.setTopTitle
+import br.gohan.shopsample.screens.BottomSheet
 import br.gohan.shopsample.ui.Dimens
 import br.gohan.shopsample.ui.ShopTheme
-
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
+import shopsample.composeapp.generated.resources.Res
+import shopsample.composeapp.generated.resources.shopping_cart_checkout
 
 @Composable
 fun ShopApp(dataStoreManager: DataStoreManager) {
@@ -34,6 +41,14 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
 
         val backStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = backStackEntry?.destination
+
+        var showBottomSheet by remember { mutableStateOf(false) }
+
+        if (showBottomSheet) {
+            BottomSheet {
+                showBottomSheet = it
+            }
+        }
 
         var selectedRoute by remember {
             mutableStateOf(
@@ -56,11 +71,27 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
             TopBarState(
                 setTopTitle(selectedRoute.name),
                 isSearchActive = currentSearch != null,
-                noSearch = selectedRoute == AppRoutes.PRODUCT
+                noSearch = selectedRoute == AppRoutes.PRODUCT || selectedRoute == AppRoutes.CHECKOUT
             )
         }
 
         Scaffold(
+            floatingActionButton = {
+                if (selectedRoute == AppRoutes.CHECKOUT) {
+                    FloatingActionButton(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                        onClick = {
+                            coroutine.launch {
+                                showBottomSheet = true
+                            }
+                        }) {
+                        Image(
+                            painterResource(Res.drawable.shopping_cart_checkout),
+                            "Finish checkout"
+                        )
+                    }
+                }
+            },
             snackbarHost = { SnackbarHost(snackBar) },
             topBar = {
                 TopBar(

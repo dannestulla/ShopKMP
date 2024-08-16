@@ -1,7 +1,7 @@
 package domain.mappers
 
 import database.Checkout
-import presentation.checkout.CheckoutUI
+import presentation.model.CheckoutUI
 
 internal fun Checkout.toCheckoutUI(): CheckoutUI {
     return CheckoutUI(

@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -22,14 +21,15 @@ import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
 import br.gohan.shopsample.ui.Dimens
 import kotlinx.coroutines.launch
-import presentation.favorites.FavoritesViewModel
-import presentation.products.ProductUI
+import org.koin.compose.koinInject
+import presentation.FavoritesViewModel
+import presentation.model.ProductUI
 
 @Composable
 fun FavoritesScreen(
     shopParameters: ShopParameters,
+    favoritesViewModel: FavoritesViewModel = koinInject()
 ) = with(shopParameters) {
-    val favoritesViewModel = remember { FavoritesViewModel() }
     val state by favoritesViewModel.state.collectAsState()
 
     FavoritesScreenStateless(state.products, paddingValues) { action ->
