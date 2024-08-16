@@ -10,6 +10,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -19,26 +22,27 @@ import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
 import br.gohan.shopsample.ui.Dimens
 import kotlinx.coroutines.launch
+import presentation.favorites.FavoritesViewModel
 import presentation.products.ProductUI
 
 @Composable
 fun FavoritesScreen(
-    product: List<ProductUI>?,
     shopParameters: ShopParameters,
 ) = with(shopParameters) {
-    FavoritesScreenStateless(product, paddingValues) { action ->
+    val favoritesViewModel = remember { FavoritesViewModel() }
+    val state by favoritesViewModel.state.collectAsState()
+
+    FavoritesScreenStateless(state.products, paddingValues) { action ->
         when (action) {
             is ProductAction.Navigate -> {
                 navController.navigate(AppRoutes.PRODUCT.name)
             }
-
             is ProductAction.Favorite -> {
                 favoritesViewModel.saveFavorite(action.product)
                 coroutine.launch {
                     snackbar.showSnackbar("Added to favorites")
                 }
             }
-
             is ProductAction.RemoveFavorite -> {
                 favoritesViewModel.removeFavorite(action.product)
                 coroutine.launch {
@@ -53,7 +57,7 @@ fun FavoritesScreen(
 
 @Composable
 fun FavoritesScreenStateless(
-    product: List<ProductUI>? = emptyList(),
+    product: List<ProductUI>?,
     paddingValues: PaddingValues,
     action: (ProductAction) -> Unit
 ) {
@@ -69,7 +73,7 @@ fun FavoritesScreenStateless(
     ) {
         if (product.isEmpty()) {
             Text(
-                "No favorites yet", fontSize = Dimens.fontSmaller,
+                "No favorites yet", fontSize = Dimens.fontSmall,
                 style = TextStyle(
                     fontFamily = MaterialTheme.typography.headlineMedium.fontFamily,
                 ),

@@ -18,8 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -31,31 +29,33 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.ShopParameters
+import br.gohan.shopsample.components.AcceptButton
 import br.gohan.shopsample.ui.AppColor
 import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import presentation.products.ProductUI
+import presentation.products.ProductsViewModel
 
 @Composable
 fun ProductScreen(shopParameters: ShopParameters) = with(shopParameters) {
+    val productsViewModel = remember { ProductsViewModel() }
     var product by remember { mutableStateOf<ProductUI?>(null) }
     coroutine.launch {
         shopParameters.dataStoreManager.retrieveProduct()?.also {
-            favoritesViewModel.checkIfIsFavorite(it.title).also { isFavorite ->
+            productsViewModel.checkIfIsFavorite(it.title).also { isFavorite ->
                 product = it.copy(isFavorite = isFavorite)
             }
         }
     }
     product?.let {
         ProductScreenStateless(it, paddingValues) { product ->
-            checkoutViewModel.addToCart(product)
+            productsViewModel.addToCheckout(product)
             coroutine.launch {
                 shopParameters.snackbar.showSnackbar(
                     "Product added to cart"
@@ -84,7 +84,7 @@ fun ProductScreenStateless(
     }
     val progress by remember {
         derivedStateOf {
-            calculateProgress(
+            progressAnimation(
                 currentIndex = imageNumberSelected.intValue,
                 totalItems = product.images.size
             )
@@ -114,7 +114,9 @@ fun ProductScreenStateless(
             modifier = Modifier
                 .padding(horizontal = Dimens.paddingExtraHuge)
                 .fillMaxWidth(),
-            progress = animatedProgress, color = Black, backgroundColor = Color.LightGray
+            progress = animatedProgress,
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            backgroundColor = Color.LightGray
         )
         Spacer(modifier = Modifier.padding(top = Dimens.paddingExtraHuge))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(Dimens.paddingMedium)) {
@@ -131,14 +133,14 @@ fun ProductScreenStateless(
         }
         Spacer(modifier = Modifier.padding(top = Dimens.paddingLarge))
         Text(
-            text = product.category, fontSize = Dimens.fontSmall,
+            text = product.category, fontSize = Dimens.fontLarge,
             style = TextStyle(
                 fontFamily = MaterialTheme.typography.headlineSmall.fontFamily,
             ),
         )
         Spacer(modifier = Modifier.padding(top = Dimens.paddingSmall))
         Text(
-            text = product.title, fontSize = Dimens.fontLarge, style = TextStyle(
+            text = product.title, fontSize = Dimens.fontHuge, style = TextStyle(
                 fontFamily = MaterialTheme.typography.headlineLarge.fontFamily,
             ), fontWeight = FontWeight.Bold
         )
@@ -148,7 +150,7 @@ fun ProductScreenStateless(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = product.newPrice, fontSize = Dimens.fontSmall,
+                text = product.newPrice, fontSize = Dimens.fontNormal,
                 style = TextStyle(
                     fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                     fontWeight = FontWeight.Bold
@@ -158,12 +160,12 @@ fun ProductScreenStateless(
             Text(
                 text = product.oldPrice,
                 textDecoration = TextDecoration.LineThrough,
-                fontSize = Dimens.fontSmall,
+                fontSize = Dimens.fontNormal,
                 color = Color.Gray
             )
             Spacer(modifier = Modifier.padding(top = Dimens.paddingSmaller))
             Text(
-                text = product.discount, fontSize = Dimens.fontSmaller, color = AppColor.green,
+                text = product.discount, fontSize = Dimens.fontSmall, color = AppColor.green,
                 style = TextStyle(
                     fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                 ),
@@ -171,11 +173,12 @@ fun ProductScreenStateless(
         }
         Spacer(modifier = Modifier.padding(top = Dimens.paddingExtraLarge))
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier.padding(top = 3.dp),
-                text = "Size:", fontSize = Dimens.fontMedium,
+                text = "Size:", fontSize = Dimens.fontLarge,
                 style = TextStyle(
                     fontFamily = MaterialTheme.typography.bodyLarge.fontFamily,
                 ),
@@ -194,34 +197,17 @@ fun ProductScreenStateless(
             ),
         )
         Spacer(modifier = Modifier.padding(top = Dimens.paddingHuge))
-        Button(colors = ButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondary,
-            disabledContainerColor = MaterialTheme.colorScheme.surface,
-            disabledContentColor = MaterialTheme.colorScheme.onSurface,
-        ),
-            modifier = Modifier
-                .height(50.dp)
-                .fillMaxWidth()
-                .padding(horizontal = Dimens.paddingSmall), onClick = {
-                product.copy(sizeSelected = sizeSelected).also {
-                    addToCart(it)
-                }
-
-            }) {
-            Text(
-                text = "Add to cart", fontSize = Dimens.fontSmall, color = Color.White,
-                style = TextStyle(
-                    fontFamily = MaterialTheme.typography.labelLarge.fontFamily,
-                ),
-            )
+        AcceptButton("Add to cart") {
+            product.copy(sizeSelected = sizeSelected).also {
+                addToCart(it)
+            }
         }
         Spacer(modifier = Modifier.padding(top = Dimens.paddingExtraHuge))
 
     }
 }
 
-internal fun calculateProgress(currentIndex: Int, totalItems: Int): Float {
+internal fun progressAnimation(currentIndex: Int, totalItems: Int): Float {
     return if (currentIndex == 0) {
         0.2f
     } else if (totalItems > 0) {

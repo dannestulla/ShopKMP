@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import presentation.products.ProductUI
 
@@ -44,14 +47,15 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
     Box(
         modifier = Modifier
             .wrapContentHeight()
-            .width(200.dp)
     ) {
         Card(
             onClick = { onClick(ProductAction.Navigate(product)) },
             modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight()
                 .padding(3.dp)
-                .width(200.dp)
+                .width(200.dp),
+            shape = RoundedCornerShape(Dimens.cornerSmall)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 AsyncImage(
@@ -65,8 +69,9 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                 Text(
                     text = product.title,
                     style = TextStyle(
-                        fontFamily = MaterialTheme.typography.titleSmall.fontFamily,
+                        fontFamily = MaterialTheme.typography.titleMedium.fontFamily,
                     ),
+                    fontSize = Dimens.fontSmall,
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .align(Alignment.Start),
@@ -84,7 +89,7 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                     modifier = Modifier
                         .padding(top = 12.dp)
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         text = product.newPrice,
@@ -102,14 +107,17 @@ fun ProductComponent(product: ProductUI, isFavorited: Boolean = false, onClick: 
                         color = Color.Gray,
                     )
                 }
-                Text(
-                    modifier = Modifier.padding(top = 6.dp),
-                    text = product.discount,
-                    style = TextStyle(
-                        fontFamily = MaterialTheme.typography.labelMedium.fontFamily,
-                    ),
-                    color = Color(0xFF098109),
-                )
+                Row(horizontalArrangement = Arrangement.End) {
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        modifier = Modifier.padding(top = 6.dp),
+                        text = product.discount,
+                        style = TextStyle(
+                            fontFamily = MaterialTheme.typography.labelMedium.fontFamily,
+                        ),
+                        color = Color(0xFF098109),
+                    )
+                }
             }
         }
 

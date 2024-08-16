@@ -1,7 +1,6 @@
 package br.gohan.shopsample.components.topbar
 
 import br.gohan.shopsample.AppRoutes
-import data.model.Product
 
 internal fun setTopTitle(route: String?) : String {
     return when (route) {
@@ -15,8 +14,7 @@ internal fun setTopTitle(route: String?) : String {
 }
 
 sealed class TopBarAction {
-    data class Favorite(val product: Product, val isAdding: Boolean) : TopBarAction()
-    data class Search(val search: String) : TopBarAction()
+    data class Search(val search: String?) : TopBarAction()
     data object Back : TopBarAction()
     data object CancelSearch : TopBarAction()
 }

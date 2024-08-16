@@ -6,6 +6,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,63 +18,66 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.gohan.shopsample.components.BottomNavBar
 import br.gohan.shopsample.components.topbar.TopBar
+import br.gohan.shopsample.components.topbar.TopBarAction
 import br.gohan.shopsample.components.topbar.TopBarState
-import br.gohan.shopsample.components.topbar.handle
 import br.gohan.shopsample.components.topbar.setTopTitle
 import br.gohan.shopsample.ui.Dimens
 import br.gohan.shopsample.ui.ShopTheme
-import presentation.checkout.CheckoutViewModel
-import presentation.favorites.FavoritesViewModel
-import presentation.products.ProductsViewModel
 
 
 @Composable
 fun ShopApp(dataStoreManager: DataStoreManager) {
     ShopTheme {
         val navController = rememberNavController()
-        val backStackEntry = navController.currentBackStackEntryAsState()
-        val snackbar = SnackbarHostState()
+        val snackBar = SnackbarHostState()
+        val coroutine = rememberCoroutineScope()
+
+        val backStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = backStackEntry?.destination
 
         var selectedRoute by remember {
             mutableStateOf(
-                (backStackEntry.value?.destination?.route
+                (backStackEntry?.destination?.route
                     ?: AppRoutes.CATEGORIES.name).getRoute()
             )
+        }
+
+        LaunchedEffect(currentDestination) {
+            currentDestination?.let {
+                selectedRoute = it.route?.getRoute() ?: AppRoutes.CATEGORIES
+            }
         }
 
         var currentSearch by remember {
             mutableStateOf<String?>(null)
         }
 
-        val topBarState by remember {
-            mutableStateOf(
-                TopBarState(
-                    setTopTitle(selectedRoute.name),
-                    isSearchActive = currentSearch != null,
-                    hasFavoriteButton = selectedRoute == AppRoutes.PRODUCT
-                )
+        val topBarState by derivedStateOf {
+            TopBarState(
+                setTopTitle(selectedRoute.name),
+                isSearchActive = currentSearch != null,
+                noSearch = selectedRoute == AppRoutes.PRODUCT
             )
         }
 
-        val favoritesViewModel = remember { FavoritesViewModel() }
-        val productsViewModel = remember { ProductsViewModel() }
-        val checkoutViewModel = remember { CheckoutViewModel() }
-        val coroutine = rememberCoroutineScope()
-
         Scaffold(
-            snackbarHost = { SnackbarHost(snackbar) },
+            snackbarHost = { SnackbarHost(snackBar) },
             topBar = {
                 TopBar(
                     topBarState
                 ) { action ->
-                    action.handle(
-                        navController,
-                        topBarState,
-                        favoritesViewModel,
-                        currentSearch,
-                        selectedRoute
-                    ) {
-                        currentSearch = it
+                    when (action) {
+                        is TopBarAction.Back -> {
+                            navController.popBackStack()
+                        }
+
+                        is TopBarAction.Search -> {
+                            currentSearch = action.search
+                        }
+
+                        is TopBarAction.CancelSearch -> {
+                            currentSearch = null
+                        }
                     }
                 }
             },
@@ -93,13 +98,10 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
                         navController,
                         currentSearch,
                         topBarState,
-                        favoritesViewModel,
                         dataStoreManager,
                         paddingValues,
-                        snackbar,
-                        coroutine,
-                        productsViewModel,
-                        checkoutViewModel
+                        snackBar,
+                        coroutine
                     )
                 )
             }

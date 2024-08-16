@@ -1,6 +1,8 @@
 import br.gohan.shopsample.database.ShopSampleDatabase
 import data.ShopRepository
 import data.database
+import data.local.LocalDataSource
+import data.remote.RemoteDataSource
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -11,9 +13,6 @@ import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import presentation.categories.CategoriesViewModel
-import presentation.favorites.FavoritesViewModel
-import presentation.products.ProductsViewModel
 
 fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     appDeclaration()
@@ -42,10 +41,9 @@ val api = module {
 }
 
 val core = module {
-    single { CategoriesViewModel() }
-    single { ProductsViewModel() }
-    single { FavoritesViewModel() }
     factory { ShopRepository(get(), get()) }
+    factory { RemoteDataSource(get()) }
+    factory { LocalDataSource(get()) }
 
     single {
         ShopSampleDatabase(

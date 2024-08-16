@@ -27,92 +27,97 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BottomNavBar(selected: AppRoutes, callback: (AppRoutes) -> Unit) {
+    val categoryGroup = listOf(
+        AppRoutes.CATEGORIES,
+        AppRoutes.PRODUCTS,
+        AppRoutes.PRODUCT
+    )
     return Column(
         verticalArrangement = Arrangement.Bottom
     ) {
         Box(
             modifier = Modifier.shadow(20.dp).height(4.dp).fillMaxWidth()
         )
-            BottomAppBar(
-                modifier = Modifier.height(120.dp),
-                containerColor = Color.White,
-            ) {
-                NavigationBarItem(
-                    selected = selected == AppRoutes.CATEGORIES,
-                    onClick = {
-                        callback.invoke(AppRoutes.CATEGORIES)
-                    },
-                    label = {
-                        Text(
-                            text = "Categories",
-                        )
-                    },
-                    icon = {
-                        if (selected == AppRoutes.CATEGORIES) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Products Icon",
-                                tint = Color.White
+        BottomAppBar(
+            modifier = Modifier.height(120.dp),
+            containerColor = Color.White,
+        ) {
+            NavigationBarItem(
+                selected = categoryGroup.contains(selected),
+                onClick = {
+                    callback.invoke(AppRoutes.CATEGORIES)
+                },
+                label = {
+                    Text(
+                        text = "Categories",
+                    )
+                },
+                icon = {
+                    if (categoryGroup.contains(selected)) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Products Icon",
+                            tint = Color.White
 
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = "Products Icon",
-                            )
-                        }
-                    }
-                )
-                NavigationBarItem(
-                    selected = selected == AppRoutes.FAVORITES,
-                    onClick = { callback.invoke(AppRoutes.FAVORITES) },
-                    label = {
-                        Text(
-                            style = TextStyle(),
-                            text = "Favorites",
                         )
-                    },
-                    icon = {
-                        if (selected == AppRoutes.FAVORITES) {
-                            Icon(
-                                imageVector = Icons.Default.Favorite,
-                                contentDescription = "ShoppingCard Icon",
-                                tint = Color.White
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Default.FavoriteBorder,
-                                contentDescription = "ShoppingCard Icon",
-                            )
-                        }
-                    }
-                )
-                NavigationBarItem(
-                    selected = selected == AppRoutes.CHECKOUT,
-                    onClick = { callback.invoke(AppRoutes.CHECKOUT) },
-                    label = {
-                        Text(
-                            text = "Checkout",
+                    } else {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = "Products Icon",
                         )
-                    },
-                    icon = {
-                        if (selected == AppRoutes.CHECKOUT) {
-                            Icon(
-                                imageVector = Icons.Default.ShoppingCart,
-                                contentDescription = "ShoppingCard Icon",
-                                tint = Color.White
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Outlined.ShoppingCart,
-                                contentDescription = "ShoppingCard Icon",
-                            )
-                        }
                     }
-                )
-            }
+                }
+            )
+            NavigationBarItem(
+                selected = selected == AppRoutes.FAVORITES,
+                onClick = { callback.invoke(AppRoutes.FAVORITES) },
+                label = {
+                    Text(
+                        style = TextStyle(),
+                        text = "Favorites",
+                    )
+                },
+                icon = {
+                    if (selected == AppRoutes.FAVORITES) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "ShoppingCard Icon",
+                            tint = Color.White
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "ShoppingCard Icon",
+                        )
+                    }
+                }
+            )
+            NavigationBarItem(
+                selected = selected == AppRoutes.CHECKOUT,
+                onClick = { callback.invoke(AppRoutes.CHECKOUT) },
+                label = {
+                    Text(
+                        text = "Checkout",
+                    )
+                },
+                icon = {
+                    if (selected == AppRoutes.CHECKOUT) {
+                        Icon(
+                            imageVector = Icons.Default.ShoppingCart,
+                            contentDescription = "ShoppingCard Icon",
+                            tint = Color.White
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Outlined.ShoppingCart,
+                            contentDescription = "ShoppingCard Icon",
+                        )
+                    }
+                }
+            )
         }
     }
+}
 
 
 @Preview()

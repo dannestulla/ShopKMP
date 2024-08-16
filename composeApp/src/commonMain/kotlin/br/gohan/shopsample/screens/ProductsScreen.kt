@@ -11,7 +11,6 @@ import br.gohan.shopsample.AppRoutes
 import br.gohan.shopsample.ShopParameters
 import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
-import br.gohan.shopsample.components.topbar.setTopTitle
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.products.ProductUI
@@ -20,37 +19,37 @@ import presentation.products.ProductsViewModel
 @Composable
 fun ProductsScreen(
     currentSearch: String?,
-    shopParameters: ShopParameters
+    shopParameters: ShopParameters,
+    category: String
 ) = with(shopParameters) {
-    val productsViewModel = remember { ProductsViewModel() }
+    val productsViewModel = remember { ProductsViewModel(category) }
     val products = productsViewModel.state.collectAsState().value.products
 
     ProductsScreenStateless(products, currentSearch, shopParameters) { action ->
         when (action) {
             is ProductAction.Navigate -> {
-                topBarState.title = setTopTitle(AppRoutes.PRODUCT.name)
                 coroutine.launch {
-                    shopParameters.dataStoreManager.cacheProduct(action.product)
+                    dataStoreManager.cacheProduct(action.product)
                 }
                 navController.navigate(AppRoutes.PRODUCT.name)
             }
 
             is ProductAction.Favorite -> {
-                favoritesViewModel.saveFavorite(action.product)
+                productsViewModel.saveFavorite(action.product)
                 coroutine.launch {
                     snackbar.showSnackbar("Added to favorites")
                 }
             }
 
             is ProductAction.RemoveFavorite -> {
-                favoritesViewModel.removeFavorite(action.product)
+                productsViewModel.removeFavorite(action.product)
                 coroutine.launch {
                     snackbar.showSnackbar("Removed from favorites")
                 }
             }
 
             is ProductAction.AddToCart -> {
-                checkoutViewModel.addToCart(action.product)
+                productsViewModel.addToCheckout(action.product)
                 coroutine.launch {
                     snackbar.showSnackbar("Added to cart")
                 }
@@ -64,7 +63,7 @@ fun ProductsScreen(
 fun ProductsScreenStateless(
     products: List<ProductUI>?,
     currentSearch: String?,
-    appParamaters: ShopParameters,
+    appParameters: ShopParameters,
     onClick: (ProductAction) -> Unit
 ) {
     if (products == null) {
@@ -72,7 +71,7 @@ fun ProductsScreenStateless(
         return
     }
     LazyVerticalGrid(
-        modifier = Modifier.padding(appParamaters.paddingValues),
+        modifier = Modifier.padding(appParameters.paddingValues),
         columns = GridCells.Fixed(2)
     ) {
         val filteredProducts = currentSearch?.let {

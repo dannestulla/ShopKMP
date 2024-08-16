@@ -22,7 +22,6 @@ class CategoriesViewModel(
         getCategories()
     }
 
-
     private fun getCategories() {
         viewModelScope.launch {
             _state.update {

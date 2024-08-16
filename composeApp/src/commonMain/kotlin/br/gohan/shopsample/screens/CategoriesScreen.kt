@@ -1,19 +1,28 @@
 package br.gohan.shopsample.screens
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import data.model.Categories
-import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import br.gohan.shopsample.components.CategoryComponent
-import br.gohan.shopsample.ui.Dimens
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import presentation.categories.CategoriesViewModel
 
 
 @Composable
-fun CategoriesScreen(categories: List<Categories>?, currentSearch: String?, paddingValues: PaddingValues, onClick: (String) -> Unit) {
+fun CategoriesScreen(
+    currentSearch: String?,
+    paddingValues: PaddingValues,
+    onClick: (String) -> Unit
+) {
+    val categoriesViewModel = remember { CategoriesViewModel() }
+    val state by categoriesViewModel.state.collectAsState()
+    val categories = state.categories
+
     if (categories == null) {
         LoadingScreen()
         return

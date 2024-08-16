@@ -22,17 +22,20 @@ class FavoritesViewModel() : CoroutineViewModel(), KoinComponent {
     private val _state = MutableStateFlow(FavoritesState())
     val state = _state.asStateFlow()
 
-    private val _productIsFavorite = MutableStateFlow(false)
-    val productIsFavorite = _productIsFavorite.asStateFlow()
+    init {
+        getFavorites()
+    }
 
-    fun getFavorites() {
+    private fun getFavorites() {
         viewModelScope.launch {
-            _state.update {
-                FavoritesState(
-                    repository.getFavorites().map {
-                        it.toProductUI(CURRENT_DISCOUNT)
+            repository.getFavorites().collect { favorites ->
+                _state.update {
+                    favorites.map {
+                        it.toProduct().toProductUI(CURRENT_DISCOUNT)
+                    }.let { result ->
+                        FavoritesState(result)
                     }
-                )
+                }
             }
         }
     }
@@ -53,10 +56,7 @@ class FavoritesViewModel() : CoroutineViewModel(), KoinComponent {
         viewModelScope.launch {
             repository.removeFavorite(product.toProduct())
         }
-        getFavorites()
     }
 
-    fun checkIfIsFavorite(title: String): Boolean {
-        return repository.getFavoriteByTitle(title) != null
-    }
+
 }

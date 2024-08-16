@@ -55,7 +55,7 @@ fun DropdownMenuComponent(
         ) {
             items.forEach { selectionOption ->
                 DropdownMenuItem(
-                    { Text(selectionOption) },
+                    { Text(selectionOption, fontSize = Dimens.fontSmall) },
                     onClick = {
                         selectedOptionText = selectionOption
                         expanded.value = false

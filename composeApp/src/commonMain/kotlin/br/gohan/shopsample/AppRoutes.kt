@@ -10,12 +10,13 @@ enum class AppRoutes {
 }
 
 fun String.getRoute(): AppRoutes {
-    return when (this) {
+    val route = this.split("/").first()
+    return when (route) {
         "CATEGORIES" -> AppRoutes.CATEGORIES
         "PRODUCTS" -> AppRoutes.PRODUCTS
         "PRODUCT" -> AppRoutes.PRODUCT
         "FAVORITES" -> AppRoutes.FAVORITES
         "CHECKOUT" -> AppRoutes.CHECKOUT
-        else -> AppRoutes.FAVORITES
+        else -> throw IllegalArgumentException("Invalid route: $this")
     }
 }

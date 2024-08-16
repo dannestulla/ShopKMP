@@ -20,7 +20,7 @@ SELECT *
 FROM checkout
 WHERE title = ?;
 
-removeFromCart:
+removeFromCheckout:
 DELETE FROM checkout
 WHERE id = ?;
 

@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import presentation.CoroutineViewModel
-import presentation.products.ProductUI
 
 
 class CheckoutViewModel : CoroutineViewModel(), KoinComponent {
@@ -20,19 +19,25 @@ class CheckoutViewModel : CoroutineViewModel(), KoinComponent {
     private val _state = MutableStateFlow(CheckoutState(null))
     val state = _state.asStateFlow()
 
-    fun getItems() {
+    init {
+        getItems()
+    }
+
+    private fun getItems() {
         viewModelScope.launch {
-            _state.update {
-                CheckoutState(
-                    repository.getCheckoutItems().map {
-                        it.toCheckoutUI()
+            repository.getCheckoutItems().collect { items ->
+                _state.update {
+                    items.map { item ->
+                        item.toCheckoutUI()
+                    }.let { result ->
+                        CheckoutState(result)
                     }
-                )
+                }
             }
         }
     }
 
-    fun addToCart(product: ProductUI) {
-        repository.addToCheckout(product)
+    fun removeFromCheckout(product: CheckoutUI) {
+        repository.removeFromCheckout(product)
     }
 }

@@ -81,20 +81,20 @@ fun FavoriteComponent(product: ProductUI) {
                 ) {
                     Text(
                         text = product.newPrice,
-                        fontSize = Dimens.fontSmall,
+                        fontSize = Dimens.fontNormal,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
                         textDecoration = TextDecoration.LineThrough,
                         text = product.oldPrice,
-                        fontSize = Dimens.fontSmall,
+                        fontSize = Dimens.fontNormal,
                         color = Color.Gray,
                     )
                 }
                 Text(
                     modifier = Modifier.padding(top = 6.dp),
                     text = product.discount,
-                    fontSize = Dimens.fontSmall,
+                    fontSize = Dimens.fontNormal,
                     color = AppColor.green,
                 )
             }
