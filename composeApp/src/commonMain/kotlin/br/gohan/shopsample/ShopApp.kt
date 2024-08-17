@@ -2,6 +2,7 @@ package br.gohan.shopsample
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -17,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.gohan.shopsample.components.BottomNavBar
@@ -79,6 +82,7 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
             floatingActionButton = {
                 if (selectedRoute == AppRoutes.CHECKOUT) {
                     FloatingActionButton(
+                        modifier = Modifier.size(60.dp),
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
                         onClick = {
                             coroutine.launch {
@@ -87,7 +91,8 @@ fun ShopApp(dataStoreManager: DataStoreManager) {
                         }) {
                         Image(
                             painterResource(Res.drawable.shopping_cart_checkout),
-                            "Finish checkout"
+                            "Finish checkout",
+                            contentScale = ContentScale.FillBounds,
                         )
                     }
                 }

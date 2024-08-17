@@ -40,13 +40,14 @@ import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
 import presentation.ProductsViewModel
 import presentation.model.ProductUI
 
 @Composable
 fun ProductScreen(
     shopParameters: ShopParameters,
-    productsViewModel: ProductsViewModel = koinInject()
+    productsViewModel: ProductsViewModel = koinInject { parametersOf(null) }
 ) = with(shopParameters) {
     var product by remember { mutableStateOf<ProductUI?>(null) }
     coroutine.launch {

@@ -72,12 +72,14 @@ fun BottomSheet(showBottomSheet: (Boolean) -> Unit) {
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.height(500.dp).fillMaxSize()
+            modifier = Modifier.height(330.dp).fillMaxSize()
         ) {
             KottieAnimation(
                 composition = composition,
                 progress = { animationState.progress },
-                modifier = Modifier.size(200.dp)
+                modifier = if (paymentStatus == PaymentAnimation.Processing) Modifier.size(160.dp) else Modifier.size(
+                    180.dp
+                )
             )
             Text(paymentStatus.status, fontSize = Dimens.fontNormal)
             Spacer(modifier = Modifier.height(50.dp))
@@ -87,6 +89,7 @@ fun BottomSheet(showBottomSheet: (Boolean) -> Unit) {
             ) {
                 showBottomSheet(false)
             }
+            Spacer(modifier = Modifier.height(40.dp))
         }
     }
 }

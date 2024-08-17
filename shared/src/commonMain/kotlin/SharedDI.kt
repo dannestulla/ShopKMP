@@ -45,10 +45,12 @@ val api = module {
 }
 
 val core = module {
-    single { CategoriesViewModel(get()) }
-    single { FavoritesViewModel(get()) }
-    single { CheckoutViewModel(get()) }
-    single { (categories: String) -> ProductsViewModel(categories, get()) }
+    factory { CategoriesViewModel(get()) }
+    factory { FavoritesViewModel(get()) }
+    factory { CheckoutViewModel(get()) }
+    factory { (categories: String?) ->
+        ProductsViewModel(categories, get())
+    }
 
     factory { ShopRepository(get(), get()) }
     factory { RemoteDataSource(get()) }

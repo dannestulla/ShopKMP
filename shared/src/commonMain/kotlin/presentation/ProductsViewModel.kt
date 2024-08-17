@@ -28,6 +28,7 @@ class ProductsViewModel(
     }
 
     private fun getItems() {
+        if (category == null) return
         viewModelScope.launch {
             repository.getProducts().map {
                 it.toProductUI(CURRENT_DISCOUNT)
