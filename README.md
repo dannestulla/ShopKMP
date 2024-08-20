@@ -1,19 +1,24 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Server.
+# ShopSample
+This project is a Compose Multiplatform proof of concept. The technologies used are:
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+- **MVI** (Model View Intent) architecture 
+- **Ktor** to handle API requests
+- **SqlDelight** database to store data and automatically refresh UI State when changes happen
+- **Koin** to manage dependency injection
+- **Kottie** to use animated images
+- **Coil** to load images
+- **Datastore** to pass complex objects between viewModels
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Images
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/f2f18799-06f6-4262-987f-818ad723eb6c" width="200" />
+  <img src="https://github.com/user-attachments/assets/9e53b969-698c-40f9-a5b6-0099dcb82839" width="200" /> 
+  <img src="https://github.com/user-attachments/assets/6babed9d-1b03-4558-a0df-39b7174e21a0" width="200" />
+  <img src="https://github.com/user-attachments/assets/7edcbe51-5a7f-4e60-87ee-dbbfaaecb56c" width="200" />
+</p>
 
-* `/server` is for the Ktor server application.
+## Video
+https://github.com/user-attachments/assets/3dcbe4e9-7f0d-4385-872c-44c4ca70f262
 
-* `/shared` is for the code that will be shared between all targets in the project.
-  The most important subfolder is `commonMain`. If preferred, you can add code to the platform-specific folders here too.
-
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Architecture
+![1689111067509](https://github.com/user-attachments/assets/7150d289-af48-44c5-ba28-34bd99df9f62)
