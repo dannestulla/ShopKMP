@@ -37,12 +37,6 @@ fun FavoritesScreen(
             is ProductAction.Navigate -> {
                 navController.navigate(AppRoutes.PRODUCT.name)
             }
-            is ProductAction.Favorite -> {
-                favoritesViewModel.saveFavorite(action.product)
-                coroutine.launch {
-                    snackbar.showSnackbar("Added to favorites")
-                }
-            }
             is ProductAction.RemoveFavorite -> {
                 favoritesViewModel.removeFavorite(action.product)
                 coroutine.launch {
@@ -50,6 +44,7 @@ fun FavoritesScreen(
                 }
             }
             is ProductAction.AddToCart -> {}
+            is ProductAction.Favorite -> {}
         }
     }
 

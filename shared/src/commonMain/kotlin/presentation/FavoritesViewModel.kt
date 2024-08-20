@@ -1,9 +1,8 @@
 package presentation
 
 import data.ShopRepository
-import domain.CURRENT_DISCOUNT
 import domain.mappers.toProduct
-import domain.mappers.toProductUI
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -12,10 +11,10 @@ import org.koin.core.component.KoinComponent
 import presentation.model.FavoritesState
 import presentation.model.ProductUI
 
-class FavoritesViewModel(private val repository: ShopRepository) : CoroutineViewModel(),
-    KoinComponent {
-
-    private val viewModelScope = coroutineScope
+class FavoritesViewModel(
+    private val repository: ShopRepository,
+    private val viewModelScope: CoroutineScope
+) : KoinComponent {
 
     private val _state = MutableStateFlow(FavoritesState())
     val state = _state.asStateFlow()
@@ -28,25 +27,15 @@ class FavoritesViewModel(private val repository: ShopRepository) : CoroutineView
         viewModelScope.launch {
             repository.getFavorites().collect { favorites ->
                 _state.update {
-                    favorites.map {
-                        it.toProduct().toProductUI(CURRENT_DISCOUNT)
-                    }.let { result ->
-                        FavoritesState(result)
-                    }
+                    FavoritesState(favorites.toProduct())
                 }
             }
         }
     }
 
-    fun saveFavorite(product: ProductUI) {
-        viewModelScope.launch {
-            repository.saveFavorite(product.toProduct())
-        }
-    }
-
     fun removeFavorite(product: ProductUI) {
         viewModelScope.launch {
-            repository.removeFavorite(product.toProduct())
+            repository.removeFavorite(product)
         }
     }
 }

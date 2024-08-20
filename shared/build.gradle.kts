@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.mockkery)
 }
 
 kotlin {
@@ -35,6 +36,7 @@ kotlin {
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.datetime)
+            implementation(libs.androidx.lifecycle.viewmodel)
         }
         iosMain.dependencies {
             implementation(libs.ktor.darwin)
@@ -42,8 +44,12 @@ kotlin {
             implementation(libs.sqldelight.native.driver)
         }
         androidMain.dependencies {
-            implementation(libs.androix.viewmodel)
+            implementation(libs.androidx.viewmodel)
             implementation(libs.sqldelight.android.driver)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.turbine)
         }
     }
 }
@@ -58,6 +64,13 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+dependencies {
+    testImplementation(libs.junit)
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 sqldelight {

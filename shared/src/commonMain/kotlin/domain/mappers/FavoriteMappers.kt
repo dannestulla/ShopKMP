@@ -1,15 +1,17 @@
 package domain.mappers
 
-import data.model.Category
-import data.model.Product
 import database.Favorites
+import presentation.model.ProductUI
 
-fun Favorites.toProduct(): Product =
-    Product(
-        title = this.title,
-        price = this.price.toDouble(),
-        description = this.description,
-        images = listOf(this.image),
-        category = Category(name = this.category)
-    )
-
+fun List<Favorites>.toProduct(): List<ProductUI> =
+    this.map {
+        ProductUI(
+            title = it.title,
+            oldPrice = it.oldPrice,
+            newPrice = it.newPrice,
+            description = it.description,
+            images = listOf(it.image),
+            discount = it.discount,
+            category = it.category
+        )
+    }

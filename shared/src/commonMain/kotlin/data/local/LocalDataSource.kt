@@ -3,7 +3,6 @@ package data.local
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import br.gohan.shopsample.database.ShopSampleDatabase
-import data.model.Product
 import database.Checkout
 import database.Favorites
 import kotlinx.coroutines.Dispatchers
@@ -30,18 +29,20 @@ class LocalDataSource(
         return favoritesTable.getFavoriteTitle(title).executeAsList().firstOrNull()
     }
 
-    fun saveFavorite(product: Product) {
+    fun saveFavorite(product: ProductUI, discount: Double) {
         favoritesTable.saveFavorite(
             title = product.title,
-            price = product.price.toString(),
+            newPrice = product.newPrice,
+            oldPrice = product.oldPrice,
             description = product.description,
             image = product.images.first(),
             timestamp = Clock.System.now().toEpochMilliseconds(),
-            category = product.category.name
+            category = product.category,
+            discount = discount.toString(),
         )
     }
 
-    fun removeFavorite(product: Product) {
+    fun removeFavorite(product: ProductUI) {
         val favorite = favoritesTable.getFavoriteTitle(product.title).executeAsList()
         favorite.forEach {
             favoritesTable.removeFavoriteById(it.id)

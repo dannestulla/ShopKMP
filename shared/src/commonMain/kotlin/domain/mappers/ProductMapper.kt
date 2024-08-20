@@ -8,17 +8,19 @@ import domain.toCurrency
 import domain.toPercentage
 import presentation.model.ProductUI
 
-internal fun Product.toProductUI(discount: Double): ProductUI {
-    return ProductUI(
-        this.title,
-        this.price.toCurrency(),
-        this.price.setDiscount(discount),
-        discount.toPercentage(),
-        this.description,
-        this.images,
-        this.category.name,
+internal fun List<Product>.toProductUI(discount: Double): List<ProductUI> {
+    return this.map {
+        ProductUI(
+            it.title,
+            it.price.toCurrency(),
+            it.price.setDiscount(discount),
+            discount.toPercentage(),
+            it.description,
+            it.images,
+            it.category.name,
 
-    )
+            )
+    }
 }
 
 internal fun ProductUI.toProduct(): Product {

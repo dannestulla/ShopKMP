@@ -1,4 +1,5 @@
 package domain
+
 import platform.Foundation.*
 
 actual fun Double.toCurrency(): String {
@@ -18,9 +19,16 @@ actual fun Double.toPercentage(): String {
 }
 
 actual fun String.percentageToDouble(): Double {
-    TODO("Not yet implemented")
+    val formatter = NSNumberFormatter().apply {
+        numberStyle = NSNumberFormatterPercentStyle
+    }
+    return formatter.numberFromString(this)?.doubleValue ?: 0.0
 }
 
 actual fun String.currencyToDouble(): Double {
-    TODO("Not yet implemented")
+    val formatter = NSNumberFormatter().apply {
+        numberStyle = NSNumberFormatterCurrencyStyle
+        locale = NSLocale(localeIdentifier = "pt_BR")
+    }
+    return formatter.numberFromString(this)?.doubleValue ?: 0.0
 }

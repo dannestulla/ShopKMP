@@ -1,6 +1,8 @@
 package presentation
 
-import data.ShopRepository
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import data.ShopRepositoryImpl
 import domain.mappers.toCheckoutUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,10 +14,8 @@ import presentation.model.CheckoutUI
 
 
 class CheckoutViewModel(
-    private val repository: ShopRepository
-) : CoroutineViewModel(), KoinComponent {
-
-    private val viewModelScope = coroutineScope
+    private val repository: ShopRepositoryImpl
+) : ViewModel(), KoinComponent {
 
     private val _state = MutableStateFlow(CheckoutState(null))
     val state = _state.asStateFlow()

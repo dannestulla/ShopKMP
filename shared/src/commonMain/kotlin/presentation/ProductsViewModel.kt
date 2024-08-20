@@ -2,25 +2,23 @@ package presentation
 
 import data.ShopRepository
 import domain.CURRENT_DISCOUNT
-import domain.mappers.toProduct
-import domain.mappers.toProductUI
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import presentation.model.FavoritesState
 import presentation.model.ProductUI
+import presentation.model.ProductsState
 
 
 class ProductsViewModel(
     private val category: String? = null,
-    private val repository: ShopRepository
-) : CoroutineViewModel(),
-    KoinComponent {
-    private val viewModelScope = coroutineScope
+    private val repository: ShopRepository,
+    private val viewModelScope: CoroutineScope
+) : KoinComponent {
 
-    private val _state = MutableStateFlow(FavoritesState())
+    private val _state = MutableStateFlow(ProductsState())
     val state = _state.asStateFlow()
 
     init {
@@ -30,22 +28,22 @@ class ProductsViewModel(
     private fun getItems() {
         if (category == null) return
         viewModelScope.launch {
-            repository.getProducts().map {
-                it.toProductUI(CURRENT_DISCOUNT)
-            }.filter { it.category == category }.let { products ->
+            repository.getProducts()
+                .filter { it.category == category }
+                .let { products ->
                 _state.update {
-                    FavoritesState(products)
+                    ProductsState(products)
                 }
             }
         }
     }
 
     fun saveFavorite(product: ProductUI) {
-        repository.saveFavorite(product.toProduct())
+        repository.saveFavorite(product, CURRENT_DISCOUNT)
     }
 
     fun removeFavorite(product: ProductUI) {
-        repository.removeFavorite(product.toProduct())
+        repository.removeFavorite(product)
     }
 
     fun addToCheckout(product: ProductUI) {

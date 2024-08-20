@@ -32,10 +32,12 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
-
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
+            implementation(libs.androidx.test.junit)
+            implementation(libs.androidx.espresso.core)
+            implementation(libs.test.rule)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

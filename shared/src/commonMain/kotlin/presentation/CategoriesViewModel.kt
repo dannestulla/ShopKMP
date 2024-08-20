@@ -1,18 +1,17 @@
 package presentation
 
 import data.ShopRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
 import presentation.model.CategoriesState
 
 class CategoriesViewModel(
-    private val repository: ShopRepository
-) : CoroutineViewModel(), KoinComponent {
-
-    private val viewModelScope = coroutineScope
+    private val repository: ShopRepository,
+    private val scope: CoroutineScope
+) {
 
     private val _state = MutableStateFlow(CategoriesState())
     val state = _state.asStateFlow()
@@ -22,7 +21,7 @@ class CategoriesViewModel(
     }
 
     private fun getCategories() {
-        viewModelScope.launch {
+        scope.launch {
             _state.update {
                 CategoriesState(repository.getCategories())
             }

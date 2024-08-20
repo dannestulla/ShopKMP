@@ -1,5 +1,6 @@
 import br.gohan.shopsample.database.ShopSampleDatabase
 import data.ShopRepository
+import data.ShopRepositoryImpl
 import data.database
 import data.local.LocalDataSource
 import data.remote.RemoteDataSource
@@ -9,6 +10,9 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -45,14 +49,16 @@ val api = module {
 }
 
 val core = module {
-    factory { CategoriesViewModel(get()) }
-    factory { FavoritesViewModel(get()) }
+    factory { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
+    factory { CategoriesViewModel(get(), get()) }
+    factory { FavoritesViewModel(get(), get()) }
     factory { CheckoutViewModel(get()) }
     factory { (categories: String?) ->
-        ProductsViewModel(categories, get())
+        ProductsViewModel(categories, get(), get())
     }
+    single<ShopRepository> { ShopRepositoryImpl(get(), get()) }
 
-    factory { ShopRepository(get(), get()) }
+    factory { ShopRepositoryImpl(get(), get()) }
     factory { RemoteDataSource(get()) }
     factory { LocalDataSource(get()) }
 
