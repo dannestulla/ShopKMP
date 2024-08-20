@@ -51,12 +51,14 @@ fun TopBar(
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.White
                     ),
-                    textStyle = TextStyle(fontSize = Dimens.fontLarge),
-                    value = search, onValueChange = {
-                        action(TopBarAction.Search(it))
+                    textStyle = TextStyle(
+                        fontSize = Dimens.fontLarge
+                    ),
+                    value = search,
+                    onValueChange = {
                         search = it
+                        action(TopBarAction.Search(it))
                     })
-                return@TopAppBar
             } else {
                 Text(
                     title, fontSize = Dimens.fontLarge,
@@ -71,9 +73,9 @@ fun TopBar(
             IconButton(onClick = {
                 if (searchActive) {
                     searchActive = !searchActive
-                    return@IconButton
+                } else {
+                    action(TopBarAction.Back)
                 }
-                action(TopBarAction.Back)
             }) {
                 Icon(Icons.AutoMirrored.Default.KeyboardArrowLeft, contentDescription = "Back")
             }
@@ -81,11 +83,11 @@ fun TopBar(
         actions = {
             if (noSearch) return@TopAppBar
             if (searchActive) {
-                search = ""
                 IconButton(onClick = { searchActive = !searchActive }) {
                     Icon(Icons.Default.Close, contentDescription = "Close")
                 }
             } else {
+                search = ""
                 focusManager.clearFocus()
                 action(TopBarAction.CancelSearch)
                 IconButton(onClick = { searchActive = !searchActive }) {

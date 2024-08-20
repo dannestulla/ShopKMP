@@ -35,6 +35,9 @@ fun FavoritesScreen(
     FavoritesScreenStateless(state.products, paddingValues) { action ->
         when (action) {
             is ProductAction.Navigate -> {
+                shopParameters.coroutine.launch {
+                    dataStoreManager.cacheProduct(action.product)
+                }
                 navController.navigate(AppRoutes.PRODUCT.name)
             }
             is ProductAction.RemoveFavorite -> {
