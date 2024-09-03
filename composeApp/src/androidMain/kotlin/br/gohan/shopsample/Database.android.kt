@@ -1,4 +1,4 @@
-package data
+package br.gohan.shopsample
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
@@ -12,6 +12,12 @@ actual val database = module {
             ShopSampleDatabase.Schema,
             get(),
             "shopsample.db"
+        )
+    }
+
+    single {
+        ShopSampleDatabase(
+            get(),
         )
     }
 }

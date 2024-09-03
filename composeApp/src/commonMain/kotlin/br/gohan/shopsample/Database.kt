@@ -1,4 +1,4 @@
-package data
+package br.gohan.shopsample
 
 import org.koin.core.module.Module
 

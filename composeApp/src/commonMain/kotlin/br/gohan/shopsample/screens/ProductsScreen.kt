@@ -11,7 +11,6 @@ import br.gohan.shopsample.ShopParameters
 import br.gohan.shopsample.components.ProductAction
 import br.gohan.shopsample.components.ProductComponent
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
 import presentation.ProductsViewModel
@@ -59,7 +58,6 @@ fun ProductsScreen(
     }
 }
 
-@Preview
 @Composable
 fun ProductsScreenStateless(
     products: List<ProductUI>?,

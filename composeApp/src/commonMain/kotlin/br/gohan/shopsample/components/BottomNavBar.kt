@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import br.gohan.shopsample.AppRoutes
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BottomNavBar(selected: AppRoutes, callback: (AppRoutes) -> Unit) {
@@ -116,14 +115,5 @@ fun BottomNavBar(selected: AppRoutes, callback: (AppRoutes) -> Unit) {
                 }
             )
         }
-    }
-}
-
-
-@Preview()
-@Composable
-private fun BottomNavBarPreview() {
-    BottomNavBar(AppRoutes.CHECKOUT) {
-
     }
 }

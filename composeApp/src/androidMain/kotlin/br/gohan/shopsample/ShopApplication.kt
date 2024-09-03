@@ -1,7 +1,6 @@
 package br.gohan.shopsample
 
 import android.app.Application
-import initKoin
 import org.koin.android.ext.koin.androidContext
 
 class ShopApplication : Application() {

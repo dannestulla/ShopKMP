@@ -13,7 +13,7 @@ actual fun Double.toCurrency(): String {
 actual fun Double.toPercentage(): String {
     val formatter = NSNumberFormatter().apply {
         numberStyle = NSNumberFormatterPercentStyle
-        maximumFractionDigits = 2 // Define a quantidade de casas decimais, se desejado
+        maximumFractionDigits = 2u // Define a quantidade de casas decimais, se desejado
     }
     return formatter.stringFromNumber(NSNumber(this)) ?: "$this%"
 }

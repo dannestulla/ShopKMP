@@ -1,7 +1,8 @@
+package br.gohan.shopsample
+
 import br.gohan.shopsample.database.ShopSampleDatabase
 import data.ShopRepository
 import data.ShopRepositoryImpl
-import data.database
 import data.local.LocalDataSource
 import data.remote.RemoteDataSource
 import io.ktor.client.HttpClient
@@ -22,8 +23,10 @@ import presentation.CheckoutViewModel
 import presentation.FavoritesViewModel
 import presentation.ProductsViewModel
 
-fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
-    appDeclaration()
+fun initKoin(appDeclaration: KoinAppDeclaration? = null) = startKoin {
+    if (appDeclaration != null) {
+        appDeclaration()
+    }
     modules(
         api,
         database,
@@ -62,9 +65,5 @@ val core = module {
     factory { RemoteDataSource(get()) }
     factory { LocalDataSource(get()) }
 
-    single {
-        ShopSampleDatabase(
-            get(),
-        )
-    }
+
 }

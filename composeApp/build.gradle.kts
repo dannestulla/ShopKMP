@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -24,20 +25,20 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            binaryOption("bundleId", "br.gohan.shopsample.composeApp")
         }
     }
     
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
+            //implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
-            implementation(libs.coil.mp)
             implementation(libs.androidx.test.junit)
-            implementation(libs.androidx.espresso.core)
             implementation(libs.test.rule)
+            implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -46,22 +47,28 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.bundles.ktor)
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines.extensions)
+            implementation(libs.datetime)
             implementation(libs.kottie)
-            implementation(libs.koin.core)
+            api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+            //implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.navigation)
             implementation(projects.shared)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.core)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
-            implementation(libs.coil.mp)
-            implementation(libs.kotlinx.serialization.json)
             implementation(libs.coil.network.ktor)
             implementation(libs.datastore.preferences)
             implementation(libs.datastore)
+        }
+        nativeMain.dependencies {
+            implementation(libs.ktor.darwin)
+            implementation(libs.sqldelight.native.driver)
         }
     }
 }
@@ -99,10 +106,5 @@ android {
     buildFeatures {
         compose = true
     }
-    dependencies {
-        debugImplementation(compose.uiTooling)
-    }
 }
-dependencies {
-    implementation(libs.androidx.ui.text.google.fonts)
-}
+

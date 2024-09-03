@@ -28,7 +28,6 @@ import br.gohan.shopsample.ui.AppColor
 import br.gohan.shopsample.ui.Dimens
 import coil3.compose.AsyncImage
 import coil3.compose.rememberAsyncImagePainter
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import presentation.model.ProductUI
 
 @Composable
@@ -111,19 +110,4 @@ fun FavoriteComponent(product: ProductUI) {
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun FavoriteComponentPreview() {
-    FavoriteComponent(product = ProductUI(
-        title = "Shoes",
-        oldPrice = "R$ 100,00",
-        newPrice = "R$ 200,00",
-        discount = "20% OFF",
-        description = "",
-        images = listOf(""),
-        category = "Shoes"
-    )
-    )
 }
