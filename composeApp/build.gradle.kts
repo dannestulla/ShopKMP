@@ -18,21 +18,19 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
-        iosArm64(),
+        //iosX64(), commented to speed up build
+        //iosArm64(), commented to speed up build
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
-            binaryOption("bundleId", "br.gohan.shopsample.composeApp")
         }
     }
     
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
-            //implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
@@ -55,7 +53,6 @@ kotlin {
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.androidx.lifecycle.viewmodel)
-            //implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.navigation)
             implementation(projects.shared)
             implementation(libs.kotlinx.serialization.json)
@@ -65,8 +62,10 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.datastore.preferences)
             implementation(libs.datastore)
+            implementation(libs.koin.compose.viewmodel)
+
         }
-        nativeMain.dependencies {
+        iosMain.dependencies {
             implementation(libs.ktor.darwin)
             implementation(libs.sqldelight.native.driver)
         }

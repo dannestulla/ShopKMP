@@ -8,8 +8,6 @@ import dev.mokkery.mock
 import dev.mokkery.verify
 import dev.mokkery.verify.VerifyMode
 import favoriteFixture
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import productsMock
@@ -27,7 +25,7 @@ class FavoritesViewModelTest {
             everySuspend { getFavorites() } returns flowOf(favoriteFixture)
             everySuspend { removeFavorite(any()) } returns Unit
         }
-        viewModel = FavoritesViewModel(repository, CoroutineScope(Dispatchers.Default))
+        viewModel = FavoritesViewModel(repository)
     }
 
     @Test

@@ -1,20 +1,19 @@
 package presentation
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import data.ShopRepository
 import domain.mappers.toProduct
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
 import presentation.model.FavoritesState
 import presentation.model.ProductUI
 
 class FavoritesViewModel(
-    private val repository: ShopRepository,
-    private val viewModelScope: CoroutineScope
-) : KoinComponent {
+    private val repository: ShopRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(FavoritesState())
     val state = _state.asStateFlow()

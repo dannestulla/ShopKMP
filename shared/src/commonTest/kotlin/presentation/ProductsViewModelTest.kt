@@ -10,8 +10,6 @@ import dev.mokkery.verify
 import dev.mokkery.verify.VerifyMode
 import domain.CURRENT_DISCOUNT
 import favoriteFixture
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import productsMock
 import kotlin.test.BeforeTest
@@ -32,7 +30,7 @@ class ProductsViewModelTest {
             everySuspend { addToCheckout(any()) } returns Unit
             everySuspend { getFavoriteByTitle(any()) } returns favoriteFixture.first()
         }
-        viewModel = ProductsViewModel("Clothes", repository, CoroutineScope(Dispatchers.Default))
+        viewModel = ProductsViewModel("Clothes", repository)
     }
 
     @Test

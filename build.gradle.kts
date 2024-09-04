@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
 }
 
+
 tasks.register("androidDebugBuild") {
     description = "Assembles the debug variants of the shared and Android modules."
     group = "Build"
@@ -18,3 +19,11 @@ tasks.register("androidRebuild") {
 
     dependsOn(":shared:clean", ":shared:assembleDebug", ":android:clean", ":android:assembleDebug")
 }
+
+tasks.register("buildIOSSimulator") {
+    description = "Builds the debug variant for the iOS simulator (arm64)."
+    group = "Build"
+
+    dependsOn(":shared:assembleDebug")
+}
+

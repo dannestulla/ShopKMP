@@ -55,7 +55,7 @@ kotlin {
 }
 
 android {
-    namespace = "br.gohan.shared"
+    namespace = "br.gohan.shopsample.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
