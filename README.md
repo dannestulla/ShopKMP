@@ -10,11 +10,18 @@ This project is a Compose Multiplatform proof of concept. The technologies used 
 - **Datastore** to pass complex objects between viewModels
 
 ## Images
+### Android
 <p float="left">
-  <img src="https://github.com/user-attachments/assets/f2f18799-06f6-4262-987f-818ad723eb6c" width="200" />
-  <img src="https://github.com/user-attachments/assets/9e53b969-698c-40f9-a5b6-0099dcb82839" width="200" /> 
-  <img src="https://github.com/user-attachments/assets/6babed9d-1b03-4558-a0df-39b7174e21a0" width="200" />
-  <img src="https://github.com/user-attachments/assets/7edcbe51-5a7f-4e60-87ee-dbbfaaecb56c" width="200" />
+  <img src="https://github.com/user-attachments/assets/f2f18799-06f6-4262-987f-818ad723eb6c" width="180" />
+  <img src="https://github.com/user-attachments/assets/9e53b969-698c-40f9-a5b6-0099dcb82839" width="180" /> 
+  <img src="https://github.com/user-attachments/assets/6babed9d-1b03-4558-a0df-39b7174e21a0" width="180" />
+  <img src="https://github.com/user-attachments/assets/7edcbe51-5a7f-4e60-87ee-dbbfaaecb56c" width="180" />
+</p>
+
+### iOS
+<p float="left">
+  <img src="https://github.com/user-attachments/assets/99ce0b35-76ab-4d1e-bb34-24c842f18b85" width="180" />
+  <img src="https://github.com/user-attachments/assets/fa5fc2dd-6afb-4a09-9c1e-7135768ee286" width="180" /> 
 </p>
 
 ## Video
